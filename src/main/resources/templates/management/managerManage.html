@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员管理</title>
+    <link rel="stylesheet" href="../../static/component/bootstrap-3.3.7/css/bootstrap.css"
+          th:href="@{/component/bootstrap-3.3.7/css/bootstrap.css}">
+    <link rel="stylesheet" href="../../static/project/css/managerManage.css"
+          th:href="@{/project/css/managerManage.css}">
+    <link rel="stylesheet" href="../../static/project/css/frame.css"
+          th:href="@{/project/css/frame.css}">
+    <script src="../../static/project/js/frame.js"
+            th:src="@{/project/js/frame.js}"></script>
+    <script src="../../static/project/js/managerManage.js"
+            th:src="@{/project/js/managerManage.js}"></script>
+    <script src="../../static/component/jquery-2.2.4.js"
+            th:src="@{/component/jquery-2.2.4.js}"></script>
+    <script src="../../static/component/bootstrap-3.3.7/js/bootstrap.js"
+            th:src="@{/component/bootstrap-3.3.7/js/bootstrap.js}"></script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="frame::header"></div>
+    <div class="body">
+        <div th:replace="frame::panelz(${2})"></div>
+        <div class="interface">
+            <form action="/managerManage" class="mSearch" method="get">
+                <div class="mFormTitles">昵称:</div>
+                <input id="nickname" name="nickname" type="text" th:value="${session.selectiveManager.nickname}">
+                <div class="mFormTitles">账号:</div>
+                <input id="account" name="account" type="text" th:value="${session.selectiveManager.account}">
+                <div class="mFormTitles">手机号码:</div>
+                <input id="phonenum" name="phonenum" type="text" th:value="${session.selectiveManager.phonenum}">
+                <div class="mFormTitles">状态:</div>
+                <select id="managerstatus" name="managerstatus">
+                    <option th:selected="${session.selectiveManager.managerstatus == ''}" value="">所有</option>
+                    <option th:selected="${session.selectiveManager.managerstatus == 0}" value='0'>未激活</option>
+                    <option th:selected="${session.selectiveManager.managerstatus == 1}" value='1'>已激活</option>
+                </select>
+                <div class="mFormTitles">权限等级:</div>
+                <select id="level" name="level">
+                    <option th:selected="${session.selectiveManager.level == ''}" value="">所有</option>
+                    <option th:selected="${session.selectiveManager.level == 2}" value='2'>超级管理员</option>
+                    <option th:selected="${session.selectiveManager.level == 1}" value='1'>普通管理员</option>
+                </select>
+                <div class="mFormTitles">创建时间:</div>
+                <input id="startime" name="startime" type="date" th:value="${#dates.format(session.selectiveManager.startime, 'yyyy-MM-dd')}">
+                <div class="mFormTitles">-</div>
+                <input id="endtime" name="endtime" type="date" th:value="${#dates.format(session.selectiveManager.endtime, 'yyyy-MM-dd')}">
+                <input id="submit" type="submit" value="搜索">
+                <a id="resets" th:href="@{/managerManage}">重置</a>
+            </form>
+            <div class="mManagerTables">
+                <a href="javascript:void(0)"  id="insertData" th:onclick="|insertManager()|" data-toggle="modal" data-backdrop="static"
+                       data-target="#insertManager">新增管理员</a>
+                <div class="tableTitle">
+                    <div class="tableTitles">管理员ID</div>
+                    <div class="tableTitles">账号</div>
+                    <div class="tableTitles">昵称</div>
+                    <div class="tableTitles">手机号码</div>
+                    <div class="tableTitles">状态</div>
+                    <div class="tableTitlesl">权限等级</div>
+                    <div class="tableTitlest">创建时间</div>
+                    <div class="tableTitlesz">操作</div>
+                </div>
+                <div class="tableData" th:each="managersList,status : ${managersList}">
+                    <div class="tableDatas" th:text="${managersList.id}">管理员ID</div>
+                    <div class="tableDatas" th:text="${managersList.account}">账号</div>
+                    <div class="tableDatas" th:text="${managersList.nickname}">昵称</div>
+                    <div class="tableDatas" th:text="${managersList.phonenum}">手机号码</div>
+                    <div class="tableDatas" th:text="${managersList.managerstatusz}">状态</div>
+                    <div class="tableDatasl" th:text="${managersList.levelz}">权限等级</div>
+                    <div class="tableDatast" th:text="${#dates.format(managersList.registertime, 'yyyy-MM-dd HH:mm:ss')}">创建时间</div>
+                    <div class="tableDatasz">
+                        <a href="javascript:void(0)" th:if="${managersList.id} != ${session.manager.id}" id="updateData" th:onclick="|updateManager(${managersList.id})|" type="button" data-toggle="modal" data-backdrop="static"
+                             data-target="#changeManager" >编辑</a>
+                        <a href="javascript:void(0)" th:if="${managersList.id} != ${session.manager.id}" id ="deleteData" th:onclick="|deleteManager(${managersList.id})|" type="button" data-toggle="modal" data-backdrop="static"
+                           data-target="#deleteManager">删除</a>
+                        <a href="javascript:void(0)" th:if="${managersList.id} != ${session.manager.id}" id ="resetPasswords" th:onclick="|resetPassword(${managersList.id})|" type="button" data-toggle="modal" data-backdrop="static"
+                              data-target="#resetPassword">重置密码</a>
+                    </div>
+                </div>
+                <nav aria-label="Page navigation" class="text-center" style="margin: 0px;padding: 0px;">
+                    <ul class="pagination">
+                        <li th:if="${managersList.pageNum}>1">
+                            <a th:href="@{/managerManage(pageNum=1)}" aria-label="Previous">
+                                <span aria-hidden="true"><<</span>
+                            </a>
+                        </li>
+                        <li th:if="${managersList.pageNum}>1">
+                            <a th:href="@{/managerManage(pageNum=${managersList.pageNum}-1)}">&lt;</a>
+                        </li>
+                        <li th:if="${managersList.pageNum-3 gt 1}">
+                            <a th:text="${managersList.pageNum-4}" th:href="@{/managerManage(pageNum=${managersList.pageNum}-4)}"></a>
+                        </li>
+                        <li th:if="${managersList.pageNum-2 gt 1}">
+                            <a th:text="${managersList.pageNum-3}" th:href="@{/managerManage(pageNum=${managersList.pageNum}-3)}"></a>
+                        </li>
+                        <li th:if="${managersList.pageNum-1 gt 1}">
+                            <a th:text="${managersList.pageNum-2}" th:href="@{/managerManage(pageNum=${managersList.pageNum}-2)}"></a>
+                        </li>
+                        <li th:if="${managersList.pageNum gt 1}" >
+                            <a th:text="${managersList.pageNum-1}" th:href="@{/managerManage(pageNum=${managersList.pageNum}-1)}"></a>
+                        </li>
+                        <!--/* 当前页 */-->
+                        <li th:if="${managersList.pageNum le managersList.pages}"
+                            th:class="${managersList.pageNum le managersList.pages ? 'active':''}">
+                            <a th:text="${managersList.pageNum}" th:href="@{/managerManage(pageNum=${managersList.pageNum})}"></a>
+                        </li>
+                        <li th:if="${managersList.pageNum+1 le managersList.pages}">
+                            <a th:text="${managersList.pageNum+1}" th:href="@{/managerManage(pageNum=${managersList.pageNum}+1)}"></a>
+                        </li>
+                        <li th:if="${managersList.pageNum+2 le managersList.pages}">
+                            <a th:text="${managersList.pageNum+2}" th:href="@{/managerManage(pageNum=${managersList.pageNum}+2)}"></a>
+                        </li>
+                        <li th:if="${managersList.pageNum+3 le managersList.pages}">
+                            <a th:text="${managersList.pageNum+3}" th:href="@{/managerManage(pageNum=${managersList.pageNum}+3)}"></a>
+                        </li>
+                        <li th:if="${managersList.pageNum lt managersList.pages}">
+                            <a th:href="@{/managerManage(pageNum=${managersList.pageNum}+1)}">&gt;</a>
+                        </li>
+                        <li th:if="${managersList.pageNum lt managersList.pages}">
+                            <a th:href="@{/managerManage(pageNum=${managersList.pages})}" aria-label="Next">
+                                <span aria-hidden="true">>></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div th:replace="frame::modal"></div>
+    <div id="insertManager" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel1">新增管理员</h4>
+                </div>
+                <div id="updateform-modal-body1" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="changeManager" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel2">编辑信息</h4>
+                </div>
+                <div id="updateform-modal-body2" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="deleteManager" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel3">确认删除</h4>
+                </div>
+                <div id="updateform-modal-body3" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="resetPassword" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel4">重置密码</h4>
+                </div>
+                <div id="updateform-modal-body4" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

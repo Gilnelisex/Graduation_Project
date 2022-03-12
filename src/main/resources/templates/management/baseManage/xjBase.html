@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<header>
+    <meta charset="UTF-8">
+</header>
+<body>
+<div class="xjBase">
+    <form action="/xjBase" class="xjBase" method="post" th:object="${base}">
+        <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" name="id" th:value="*{id}">
+        <input type="hidden" name="basestatus" th:value="0">
+        <div class="xjButton">
+            <input id="submitz" type="submit" value="确认">
+            <button id="resetz" type="button" data-dismiss="modal" aria-label="Close">取消</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

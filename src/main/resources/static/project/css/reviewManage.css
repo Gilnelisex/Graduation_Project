@@ -1,0 +1,282 @@
+.interface {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 16px;
+    height: 657px;
+    width: 87%;
+    border-radius: 0;
+}
+
+.reviewForm {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    height: 128px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #e5e6e7;
+    border-radius: 6px;
+    box-shadow: 1px 1px 3px rgb(0 0 0 / 20%)
+}
+
+.formTitles {
+    text-align: center;
+    margin: 0 10px;
+}
+
+#title, #relationact, #reviewstatus {
+    width: 200px;
+    height: 30px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #e5e6e7;
+}
+
+#ustartime, #uendtime, #cstartime, #cendtime {
+    height: 30px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #e5e6e7;
+}
+
+#submit, #resets {
+    margin: 0 16px;
+    line-height: 30px;
+    height: 30px;
+    width: 64px;
+    text-align: center;
+    text-decoration: none;
+    border: 1px solid;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.reviewLists {
+    display: flex;
+    flex-direction: column;
+    height: 480px;
+    width: 100%;
+    margin-top: 16px;
+    border: 1px solid #e5e6e7;
+    border-radius: 6px;
+    box-shadow: 1px 1px 3px rgb(0 0 0 / 20%)
+}
+
+
+.listTitle {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    line-height: 36px;
+    width: 100%;
+    background: #eff3f8;
+}
+
+.listTitles {
+    text-align: center;
+    width: 8%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.listTitlest {
+    text-align: center;
+    width: 13%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.listTitlesl {
+    text-align: center;
+    width: 10%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.listTitlesu {
+    text-align: center;
+    width: 13%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.listTitlesc {
+    text-align: center;
+    width: 13%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.listTitlesd {
+    display: flex;
+    text-align: center;
+    justify-content: space-around;
+    width: 21%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#insertData {
+    margin: 14px;
+    line-height: 36px;
+    height: 36px;
+    width: 100px;
+    text-decoration: none;
+    text-align: center;
+    background-color: #1c84c6;
+    border: 1px solid #1c84c6;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.listData {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    line-height: 60px;
+    font-size: 14px;
+    width: 100%;
+    border-left: 1px solid #eff3f8;
+    border-right: 1px solid #eff3f8;
+    border-bottom: 1px solid #eff3f8;
+}
+
+#updateData, #xj, #sj, #deleteReview {
+    line-height: 28px;
+    text-decoration: none;
+    height: 28px;
+    width: 64px;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 4px;
+    color: #fff;
+}
+
+#updateData {
+    background-color: #1c84c6;
+    border: 1px solid #1c84c6;
+}
+
+#sj {
+    background-color: #23c6c8;
+    border: 1px solid #23c6c8;
+}
+
+#xj {
+    background-color: #f8ac59;
+    border: 1px solid #f8ac59;
+}
+
+#deleteReview {
+    background-color: #ed5565;
+    border: 1px solid #ed5565;
+}
+
+#submitz {
+    height: 35px;
+    width: 65px;
+    color: white;
+    margin: 0 5%;
+    padding: 0;
+    border: 0;
+    background: #189f92;
+}
+
+#resetz {
+    height: 35px;
+    width: 65px;
+    color: white;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: #f8ac59;
+}
+
+.insertButton, .deleteButton, .sjButton, .xjButton {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.uploadPicture {
+    display: flex;
+    margin: 2%;
+    align-items: center;
+}
+
+.review {
+    margin: 0 2%;
+    max-width: 800px;
+    max-height: 360px;
+    border: 1px solid #e5e6e7;
+}
+
+.upload {
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 0;
+    line-height: 36px;
+    height: 36px;
+    width: 100px;
+    color: white;
+    border: 0;
+    background: #189f92;
+}
+
+.insertReview {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.insertReviews {
+    display: flex;
+    align-items: center;
+    width: 46%;
+    margin: 16px 2%;
+}
+
+.insertContent {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 2%;
+}
+
+.ireviewTitles {
+    width: 20%;
+}
+
+#ititle, #irelationact {
+    width: 80%;
+    height: 36px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #e5e6e7;
+}
+
+.insertButtons {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+#reviewSubmit {
+    margin: 0 16px;
+    line-height: 30px;
+    height: 36px;
+    width: 80px;
+    text-align: center;
+    text-decoration: none;
+    border: 1px solid;
+    color: #fff;
+}

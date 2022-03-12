@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<header>
+    <meta charset="UTF-8">
+</header>
+<form action="/uploadPicture" class="uploadPicture" enctype="multipart/form-data" target="toFrame" method="post">
+    <label class="upload" for="file">选择缩略图</label>
+    <input id="file" type="file" onchange="changePicture()" name="file" style="display: none"
+           accept="image/jpeg, image/png">
+    <img class="review">
+</form>
+<iframe hidden="hidden" id="toFrame" src="" frameborder="0" name="toFrame"></iframe>
+<form action="/insertActivity" class="insertActivity" method="post">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="actstatus" value="0">
+    <input type="hidden" id="picture" name="picture">
+    <div class="insertActivitys">
+        <div class="iactivityTitles">活动名称 :</div>
+        <input id="iname" name="name">
+    </div>
+    <div class="insertActivitys">
+        <div class="iactivityTitles">活动用时 :</div>
+        <input style="width: 50%" id="itime" name="time">
+        <div style="text-align: center" class="iactivityTitles">小时</div>
+    </div>
+    <div class="insertActivitys">
+        <div class="iactivityTitles">活动人数 :</div>
+        <input style="width: 50%" id="inum" name="num">
+        <div style="text-align: center" class="iactivityTitles">人</div>
+    </div>
+    <div class="insertActivitys">
+        <div class="iactivityTitles">活动价格 :</div>
+        <input style="width: 50%" id="iprice" name="price">
+        <div style="text-align: center" class="iactivityTitles">元 /人</div>
+    </div>
+    <div class="insertActivitys">
+        <div class="iactivityTitles">推荐理由 :</div>
+        <input id="ireason" name="reason">
+    </div>
+    <div class="insertActivitys">
+        <div class="iactivityTitles">活动场地 :</div>
+        <select id="ifield" name="field">
+            <option th:text="选择场地" value=""></option>
+            <option th:each="baseList,status : ${baseList}"
+                    th:value="${baseList.id}" th:text="${baseList.name}"></option>
+        </select>
+    </div>
+    <div class="insertActivitys">
+        <div class="iactivityTitles">活动类型 :</div>
+        <select id="itype" name="types" onchange="changeType()">
+            <option th:text="选择类型" value=""></option>
+            <option th:each="typeList,status : ${typeList}"
+                    th:value="${typeList.type}" th:text="${typeList.type}"></option>
+        </select>
+        <div style="text-align: center" class="iactivityTitles">或</div>
+        <input id="itypes" name="type" placeholder="手动输入">
+    </div>
+    <div class="insertActivitys">
+        <div class="iactivityTitles">活动收获 :</div>
+        <select id="iharvest" name="harvests" onchange="changeHarvest()">
+            <option th:text="选择收获" value=""></option>
+            <option th:each="harvestList,status : ${harvestList}"
+                    th:value="${harvestList.harvest}" th:text="${harvestList.harvest}"></option>
+        </select>
+        <div style="text-align: center" class="iactivityTitles">或</div>
+        <input id="iharvests" name="harvest" placeholder="手动输入">
+    </div>
+    <div class="insertContent">
+        <div class="iactivityTitles">创意亮点 :</div>
+        <div style="margin-top: 16px" id="editor0"></div>
+        <input hidden="hidden" id="iBright" name="bright">
+    </div>
+    <div class="insertContent">
+        <div class="iactivityTitles">项目介绍 :</div>
+        <div style="margin-top: 16px" id="editor1"></div>
+        <input hidden="hidden" id="iIntroduce" name="introduce">
+    </div>
+    <div class="insertButtons">
+        <input style="border: #1ab394; background-color: #1ab394" id="activitySubmit" type="submit" value="提交">
+    </div>
+</form>
+<script type="text/javascript">
+    const E = window.wangEditor
+    const editor0 = new E('#editor0')
+    const editor1 = new E('#editor1')
+    editor0.config.uploadImgServer = "/uploadImages"
+    editor0.config.uploadFileName = 'file'
+    editor0.config.uploadImgMaxSize = 1024 * 1024
+    editor0.config.uploadImgAccept = ['jpg', 'jpeg', 'png']
+    editor0.config.uploadImgMaxLength = 1
+    editor0.config.height = 250
+    editor0.config.excludeMenus = [
+        'video'
+    ]
+    editor0.config.onchange = function (html) {
+        $('#iBright').val(html)
+    }
+    editor1.config.uploadImgServer = "/uploadImages"
+    editor1.config.uploadFileName = 'file'
+    editor1.config.uploadImgMaxSize = 1024 * 1024
+    editor1.config.uploadImgAccept = ['jpg', 'jpeg', 'png']
+    editor1.config.uploadImgMaxLength = 1
+    editor1.config.height = 250
+    editor1.config.excludeMenus = [
+        'video'
+    ]
+    editor1.config.onchange = function (html) {
+        $('#iIntroduce').val(html)
+    }
+    editor0.create()
+    editor1.create()
+</script>
+<script th:inline="javascript">
+    function changePicture() {
+        var reads = new FileReader();
+        var pics = document.querySelector("#file").files[0];
+        var size = (pics.size / 1024).toFixed(0);
+        reads.readAsDataURL(pics);
+        reads.onload = function (e) {
+            document.querySelector(".review").src = this.result;
+            if (size >= 1024) {
+                window.alert("图片最大不能超过1MB!")
+            } else {
+                $('.uploadPicture').submit();
+                $("#toFrame").load(function(){
+                    var text = $(this).contents().find("body").text(); //获取到的是json的字符串
+                    $("#picture").val(text);
+                })
+            }
+        }
+    }
+
+    function changeType() {
+        if ($('#itype').val() !== "") {
+            $('#itypes').attr("readonly", "readonly")
+            $('#itypes').val($('#itype').val())
+        } else {
+            $("#itypes").removeAttr("readonly")
+            $('#itypes').val($('#itype').val())
+        }
+    }
+
+    function changeHarvest() {
+        if ($('#iharvest').val() !== "") {
+            $('#iharvests').attr("readonly", "readonly")
+            $('#iharvests').val($('#iharvest').val())
+        } else {
+            $("#iharvests").removeAttr("readonly")
+            $('#iharvests').val($('#iharvest').val())
+        }
+    }
+
+</script>
+</html>

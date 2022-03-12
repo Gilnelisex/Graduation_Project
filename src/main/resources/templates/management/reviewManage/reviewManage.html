@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>回顾管理</title>
+    <link rel="stylesheet" href="../../../static/component/bootstrap-3.3.7/css/bootstrap.css"
+          th:href="@{/component/bootstrap-3.3.7/css/bootstrap.css}">
+    <link rel="stylesheet" href="../../../static/project/css/frame.css"
+          th:href="@{/project/css/frame.css}">
+    <link rel="stylesheet" href="../../../static/project/css/reviewManage.css"
+          th:href="@{/project/css/reviewManage.css}">
+    <script src="../../../static/project/js/frame.js"
+            th:src="@{/project/js/frame.js}"></script>
+    <script src="../../../static/project/js/infoManage.js"
+            th:src="@{/project/js/infoManage.js}"></script>
+    <script src="../../../static/component/jquery-2.2.4.js"
+            th:src="@{/component/jquery-2.2.4.js}"></script>
+    <script src="../../../static/component/bootstrap-3.3.7/js/bootstrap.js"
+            th:src="@{/component/bootstrap-3.3.7/js/bootstrap.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="frame::header"></div>
+    <div class="body">
+        <div th:replace="frame::panelz(${5})"></div>
+        <div class="interface">
+            <form action="/reviewManage" class="reviewForm" method="get">
+                <div class="formTitles">回顾名称:</div>
+                <input id="title" name="title" th:value="${session.selectiveReview.title}">
+                <div class="formTitles">更新时间:</div>
+                <input id="ustartime" name="ustartime" type="date"
+                       th:value="${#dates.format(session.selectiveReview.ustartime, 'yyyy-MM-dd')}">
+                <div class="formTitles">-</div>
+                <input id="uendtime" name="uendtime" type="date"
+                       th:value="${#dates.format(session.selectiveReview.uendtime, 'yyyy-MM-dd')}">
+                <div class="formTitles">创建时间:</div>
+                <input id="cstartime" name="cstartime" type="date"
+                       th:value="${#dates.format(session.selectiveReview.cstartime, 'yyyy-MM-dd')}">
+                <div class="formTitles">-</div>
+                <input id="cendtime" name="cendtime" type="date"
+                       th:value="${#dates.format(session.selectiveReview.cendtime, 'yyyy-MM-dd')}">
+                <div class="formTitles">相关活动:</div>
+                <select id="relationact" name="relationact">
+                    <option th:selected="${session.selectiveReview.relationact == ''}" value=''>不限</option>
+                    <option th:each="activityList,status : ${activityList}"
+                            th:selected="${session.selectiveReview.relationact == activityList.id}"
+                            th:value="${activityList.id}"
+                            th:text="${activityList.name}"></option>
+                </select>
+                <div class="formTitles">状态:</div>
+                <select id="reviewstatus" name="reviewstatus">
+                    <option th:selected="${session.selectiveReview.reviewstatus == ''}" value="">所有</option>
+                    <option th:selected="${session.selectiveReview.reviewstatus == 0}" value='0'>未上架</option>
+                    <option th:selected="${session.selectiveReview.reviewstatus == 1}" value='1'>已上架</option>
+                </select>
+                <input style="border: #1ab394; background-color: #1ab394" id="submit" type="submit" value="搜索">
+                <a style="border:#f8ac59; background-color: #f8ac59" id="resets" th:href="@{/reviewManage}">重置</a>
+            </form>
+            <div class="reviewLists">
+                <a href="javascript:void(0)" id="insertData" th:onclick="|insertReview()|" data-toggle="modal"
+                   data-backdrop="static"
+                   data-target="#insertReview">新增回顾</a>
+                <div class="listTitle">
+                    <div class="listTitles">回顾ID</div>
+                    <div class="listTitles">回顾名称</div>
+                    <div class="listTitlest">缩略图</div>
+                    <div class="listTitles">相关活动</div>
+                    <div class="listTitles">状态</div>
+                    <div class="listTitles">浏览量</div>
+                    <div class="listTitlesu">更新时间</div>
+                    <div class="listTitlesc">创建时间</div>
+                    <div class="listTitlesd">操作</div>
+                </div>
+                <div class="listData" th:each="reviewList,status : ${reviewList}">
+                    <div class="listTitles" th:text="${reviewList.id}">回顾ID</div>
+                    <div class="listTitles" th:text="${reviewList.title}">回顾名称</div>
+                    <img style="max-height: 55px;border: 1px solid #e5e6e7;" class="listTitlest"
+                         th:src="${reviewList.picture}">
+                    <div class="listTitles" th:text="${reviewList.relationactz}">相关活动</div>
+                    <div class="listTitles" th:text="${reviewList.reviewstatusz}">状态</div>
+                    <div class="listTitles" th:text="${reviewList.visitnum}">浏览量</div>
+                    <div class="listTitlesu" th:text="${#dates.format(reviewList.updatetime, 'yyyy-MM-dd HH:mm:ss')}">
+                        更新时间
+                    </div>
+                    <div class="listTitlesc" th:text="${#dates.format(reviewList.createtime, 'yyyy-MM-dd HH:mm:ss')}">
+                        创建时间
+                    </div>
+                    <div class="listTitlesd">
+                        <a href="javascript:void(0)" id="updateData" th:onclick="|updateReview(${reviewList.id})|"
+                           type="button" data-toggle="modal" data-backdrop="static"
+                           data-target="#updateReview">更新</a>
+                        <a href="javascript:void(0)" th:if="${reviewList.reviewstatus} != 1" id="sj"
+                           th:onclick="|sjReview(${reviewList.id})|" type="button" data-toggle="modal"
+                           data-backdrop="static"
+                           data-target="#sjReview">上架</a>
+                        <a href="javascript:void(0)" th:if="${reviewList.reviewstatus} == 1" id="xj"
+                           th:onclick="|xjReview(${reviewList.id})|" type="button" data-toggle="modal"
+                           data-backdrop="static"
+                           data-target="#xjReview">下架</a>
+                        <a href="javascript:void(0)" id="deleteReview" th:onclick="|deleteReview(${reviewList.id})|"
+                           type="button" data-toggle="modal" data-backdrop="static"
+                           data-target="#deleteReviews">删除</a>
+                    </div>
+                </div>
+                <nav aria-label="Page navigation" class="text-center" style="margin: 0px;padding: 0px;">
+                    <ul class="pagination">
+                        <li th:if="${reviewList.pageNum}>1">
+                            <a th:href="@{/reviewManage(pageNum=1)}" aria-label="Previous">
+                                <span aria-hidden="true"><<</span>
+                            </a>
+                        </li>
+                        <li th:if="${reviewList.pageNum}>1">
+                            <a th:href="@{/reviewManage(pageNum=${reviewList.pageNum}-1)}">&lt;</a>
+                        </li>
+                        <li th:if="${reviewList.pageNum-3 gt 1}">
+                            <a th:text="${reviewList.pageNum-4}"
+                               th:href="@{/reviewManage(pageNum=${reviewList.pageNum}-4)}"></a>
+                        </li>
+                        <li th:if="${reviewList.pageNum-2 gt 1}">
+                            <a th:text="${reviewList.pageNum-3}"
+                               th:href="@{/reviewManage(pageNum=${reviewList.pageNum}-3)}"></a>
+                        </li>
+                        <li th:if="${reviewList.pageNum-1 gt 1}">
+                            <a th:text="${reviewList.pageNum-2}"
+                               th:href="@{/reviewManage(pageNum=${reviewList.pageNum}-2)}"></a>
+                        </li>
+                        <li th:if="${reviewList.pageNum gt 1}">
+                            <a th:text="${reviewList.pageNum-1}"
+                               th:href="@{/reviewManage(pageNum=${reviewList.pageNum}-1)}"></a>
+                        </li>
+                        <!--/* 当前页 */-->
+                        <li th:if="${reviewList.pageNum le reviewList.pages}"
+                            th:class="${reviewList.pageNum le reviewList.pages ? 'active':''}">
+                            <a th:text="${reviewList.pageNum}" th:href="@{/reviewManage(pageNum=${reviewList.pageNum})}"></a>
+                        </li>
+                        <li th:if="${reviewList.pageNum+1 le reviewList.pages}">
+                            <a th:text="${reviewList.pageNum+1}"
+                               th:href="@{/reviewManage(pageNum=${reviewList.pageNum}+1)}"></a>
+                        </li>
+                        <li th:if="${reviewList.pageNum+2 le reviewList.pages}">
+                            <a th:text="${reviewList.pageNum+2}"
+                               th:href="@{/reviewManage(pageNum=${reviewList.pageNum}+2)}"></a>
+                        </li>
+                        <li th:if="${reviewList.pageNum+3 le reviewList.pages}">
+                            <a th:text="${reviewList.pageNum+3}"
+                               th:href="@{/reviewManage(pageNum=${reviewList.pageNum}+3)}"></a>
+                        </li>
+                        <li th:if="${reviewList.pageNum lt reviewList.pages}">
+                            <a th:href="@{/reviewManage(pageNum=${reviewList.pageNum}+1)}">&gt;</a>
+                        </li>
+                        <li th:if="${reviewList.pageNum lt reviewList.pages}">
+                            <a th:href="@{/reviewManage(pageNum=${reviewList.pages})}" aria-label="Next">
+                                <span aria-hidden="true">>></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div th:replace="frame::modal"></div>
+    <div id="insertReview" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel1">新增信息</h4>
+                </div>
+                <div id="updateform-modal-body1" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="updateReview" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel2">更新信息</h4>
+                </div>
+                <div id="updateform-modal-body2" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="deleteReviews" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel3">确认删除</h4>
+                </div>
+                <div id="updateform-modal-body3" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="sjReview" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel4">确认上架</h4>
+                </div>
+                <div id="updateform-modal-body4" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="xjReview" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel5">确认下架</h4>
+                </div>
+                <div id="updateform-modal-body5" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

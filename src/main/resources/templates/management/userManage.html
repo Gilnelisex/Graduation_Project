@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <link rel="stylesheet" href="../../static/component/bootstrap-3.3.7/css/bootstrap.css"
+          th:href="@{/component/bootstrap-3.3.7/css/bootstrap.css}">
+    <link rel="stylesheet" href="../../static/project/css/managerManage.css"
+          th:href="@{/project/css/managerManage.css}">
+    <link rel="stylesheet" href="../../static/project/css/frame.css"
+          th:href="@{/project/css/frame.css}">
+    <script src="../../static/project/js/frame.js"
+            th:src="@{/project/js/frame.js}"></script>
+    <script src="../../static/project/js/managerManage.js"
+            th:src="@{/project/js/managerManage.js}"></script>
+    <script src="../../static/component/jquery-2.2.4.js"
+            th:src="@{/component/jquery-2.2.4.js}"></script>
+    <script src="../../static/component/bootstrap-3.3.7/js/bootstrap.js"
+            th:src="@{/component/bootstrap-3.3.7/js/bootstrap.js}"></script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="frame::header"></div>
+    <div class="body">
+        <div th:replace="frame::panelz(${3})"></div>
+        <div class="interface">
+            <form action="/userManage" class="search" method="get">
+                <div class="formTitles">昵称:</div>
+                <input id="nickname" name="nickname" type="text" th:value="${session.selectiveUser.nickname}">
+                <div class="formTitles">账号:</div>
+                <input id="account" name="account" type="text" th:value="${session.selectiveUser.account}">
+                <div class="formTitles">手机号码:</div>
+                <input id="phonenum" name="phonenum" type="text" th:value="${session.selectiveUser.phonenum}">
+                <div class="formTitles">状态:</div>
+                <select id="userstatus" name="userstatus">
+                    <option th:selected="${session.selectiveUser.userstatus == ''}" value="">所有</option>
+                    <option th:selected="${session.selectiveUser.userstatus == 0}" value='0'>未激活</option>
+                    <option th:selected="${session.selectiveUser.userstatus == 1}" value='1'>已激活</option>
+                </select>
+                <div class="formTitles">创建时间:</div>
+                <input id="startime" name="startime" type="date" th:value="${#dates.format(session.selectiveUser.startime, 'yyyy-MM-dd')}">
+                <div class="formTitles">-</div>
+                <input id="endtime" name="endtime" type="date" th:value="${#dates.format(session.selectiveUser.endtime, 'yyyy-MM-dd')}">
+                <input id="submit" type="submit" value="搜索">
+                <a id="resets" th:href="@{/userManage}">重置</a>
+            </form>
+            <div class="managerTables">
+                <a href="javascript:void(0)"  id="insertData" th:onclick="|insertUser()|" data-toggle="modal" data-backdrop="static"
+                   data-target="#insertUser">新增用户</a>
+                <div class="tableTitle">
+                    <div class="tableTitlesu">用户ID</div>
+                    <div class="tableTitlesu">账号</div>
+                    <div class="tableTitlesu">昵称</div>
+                    <div class="tableTitlesu">手机号码</div>
+                    <div class="tableTitlesu">状态</div>
+                    <div class="tableTitlestu">创建时间</div>
+                    <div class="tableTitleszu">操作</div>
+                </div>
+                <div class="tableData" th:each="usersList,status : ${usersList}">
+                    <div class="tableDatasu" th:text="${usersList.id}">用户ID</div>
+                    <div class="tableDatasu" th:text="${usersList.account}">账号</div>
+                    <div class="tableDatasu" th:text="${usersList.nickname}">昵称</div>
+                    <div class="tableDatasu" th:text="${usersList.phonenum}">手机号码</div>
+                    <div class="tableDatasu" th:text="${usersList.userstatusz}">状态</div>
+                    <div class="tableDatastu" th:text="${#dates.format(usersList.registertime, 'yyyy-MM-dd HH:mm:ss')}">创建时间</div>
+                    <div class="tableDataszu">
+                        <a href="javascript:void(0)" id="updateData" th:onclick="|updateUser(${usersList.id})|" type="button" data-toggle="modal" data-backdrop="static"
+                           data-target="#changeUser" >编辑</a>
+                        <a href="javascript:void(0)" id ="deleteData" th:onclick="|deleteUser(${usersList.id})|" type="button" data-toggle="modal" data-backdrop="static"
+                           data-target="#deleteUser">删除</a>
+                        <a href="javascript:void(0)" id ="resetPasswords" th:onclick="|resetPasswordu(${usersList.id})|" type="button" data-toggle="modal" data-backdrop="static"
+                           data-target="#resetPassword">重置密码</a>
+                    </div>
+                </div>
+                <nav aria-label="Page navigation" class="text-center" style="margin: 0px;padding: 0px;">
+                    <ul class="pagination">
+                        <li th:if="${usersList.pageNum}>1">
+                            <a th:href="@{/userManage(pageNum=1)}" aria-label="Previous">
+                                <span aria-hidden="true"><<</span>
+                            </a>
+                        </li>
+                        <li th:if="${usersList.pageNum}>1">
+                            <a th:href="@{/userManage(pageNum=${usersList.pageNum}-1)}">&lt;</a>
+                        </li>
+                        <li th:if="${usersList.pageNum-3 gt 1}">
+                            <a th:text="${usersList.pageNum-4}" th:href="@{/userManage(pageNum=${usersList.pageNum}-4)}"></a>
+                        </li>
+                        <li th:if="${usersList.pageNum-2 gt 1}">
+                            <a th:text="${usersList.pageNum-3}" th:href="@{/userManage(pageNum=${usersList.pageNum}-3)}"></a>
+                        </li>
+                        <li th:if="${usersList.pageNum-1 gt 1}">
+                            <a th:text="${usersList.pageNum-2}" th:href="@{/userManage(pageNum=${usersList.pageNum}-2)}"></a>
+                        </li>
+                        <li th:if="${usersList.pageNum gt 1}" >
+                            <a th:text="${usersList.pageNum-1}" th:href="@{/userManage(pageNum=${usersList.pageNum}-1)}"></a>
+                        </li>
+                        <!--/* 当前页 */-->
+                        <li th:if="${usersList.pageNum le usersList.pages}"
+                            th:class="${usersList.pageNum le usersList.pages ? 'active':''}">
+                            <a th:text="${usersList.pageNum}" th:href="@{/userManage(pageNum=${usersList.pageNum})}"></a>
+                        </li>
+                        <li th:if="${usersList.pageNum+1 le usersList.pages}">
+                            <a th:text="${usersList.pageNum+1}" th:href="@{/userManage(pageNum=${usersList.pageNum}+1)}"></a>
+                        </li>
+                        <li th:if="${usersList.pageNum+2 le usersList.pages}">
+                            <a th:text="${usersList.pageNum+2}" th:href="@{/userManage(pageNum=${usersList.pageNum}+2)}"></a>
+                        </li>
+                        <li th:if="${usersList.pageNum+3 le usersList.pages}">
+                            <a th:text="${usersList.pageNum+3}" th:href="@{/userManage(pageNum=${usersList.pageNum}+3)}"></a>
+                        </li>
+                        <li th:if="${usersList.pageNum lt usersList.pages}">
+                            <a th:href="@{/userManage(pageNum=${usersList.pageNum}+1)}">&gt;</a>
+                        </li>
+                        <li th:if="${usersList.pageNum lt usersList.pages}">
+                            <a th:href="@{/userManage(pageNum=${usersList.pages})}" aria-label="Next">
+                                <span aria-hidden="true">>></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div th:replace="frame::modal"></div>
+    <div id="insertUser" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel1">新增用户</h4>
+                </div>
+                <div id="updateform-modal-body1" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="changeUser" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel2">编辑信息</h4>
+                </div>
+                <div id="updateform-modal-body2" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="deleteUser" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel3">确认删除</h4>
+                </div>
+                <div id="updateform-modal-body3" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="resetPassword" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel4">重置密码</h4>
+                </div>
+                <div id="updateform-modal-body4" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

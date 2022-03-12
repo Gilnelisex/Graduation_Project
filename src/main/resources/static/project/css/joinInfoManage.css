@@ -1,0 +1,214 @@
+.interface {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 16px;
+    height: 657px;
+    width: 87%;
+    border-radius: 0;
+}
+
+.joinInfoForm {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    height: 128px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #e5e6e7;
+    border-radius: 6px;
+    box-shadow: 1px 1px 3px rgb(0 0 0 / 20%)
+}
+
+.formTitles {
+    text-align: center;
+    margin: 0 10px;
+}
+
+#unickname, #uaccount, #mnickname, #maccount, #aname, #infostatus {
+    width: 160px;
+    height: 30px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #e5e6e7;
+}
+
+#infostatus {
+    width: 136px;
+}
+
+#ustartime, #uendtime, #cstartime, #cendtime {
+    height: 30px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #e5e6e7;
+}
+
+#submit, #resets {
+    margin: 0 10px;
+    line-height: 30px;
+    height: 30px;
+    width: 64px;
+    text-align: center;
+    text-decoration: none;
+    border: 1px solid;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.joinInfoLists {
+    display: flex;
+    flex-direction: column;
+    height: 480px;
+    width: 100%;
+    margin-top: 16px;
+    border: 1px solid #e5e6e7;
+    border-radius: 6px;
+    box-shadow: 1px 1px 3px rgb(0 0 0 / 20%)
+}
+
+.listTitle {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    line-height: 36px;
+    width: 100%;
+    background: #eff3f8;
+}
+
+
+.listTitles {
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.listTitlesu {
+    text-align: center;
+    width: 12%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.listTitlesc {
+    text-align: center;
+    width: 12%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.listTitlesd {
+    display: flex;
+    text-align: center;
+    justify-content: space-around;
+    width: 18%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.listData {
+    display: flex;
+    align-items: center;
+    height: 52px;
+    line-height: 52px;
+    font-size: 14px;
+    width: 100%;
+    border-left: 1px solid #eff3f8;
+    border-right: 1px solid #eff3f8;
+    border-bottom: 1px solid #eff3f8;
+}
+
+#qrJoinInfo, #qxJoinInfo, #deleteJoinInfo {
+    line-height: 28px;
+    text-decoration: none;
+    height: 28px;
+    width: 64px;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 4px;
+    color: #fff;
+}
+
+#qrJoinInfo {
+    background-color: #1c84c6;
+    border: 1px solid #1c84c6;
+}
+
+#qxJoinInfo {
+    background-color: #f8ac59;
+    border: 1px solid #f8ac59;
+}
+
+#deleteJoinInfo {
+    background-color: #ed5565;
+    border: 1px solid #ed5565;
+}
+
+.deleteButton, .qrButton, .qxButton {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#submitz {
+    height: 35px;
+    width: 65px;
+    color: white;
+    margin: 0 5%;
+    padding: 0;
+    border: 0;
+    background: #189f92;
+}
+
+#resetz {
+    height: 35px;
+    width: 65px;
+    color: white;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: #f8ac59;
+}
+
+#infoSubmit {
+    height: 35px;
+    width: 88px;
+    color: white;
+    margin: 0 5%;
+    padding: 0;
+    border: 0;
+    background: #189f92;
+}
+
+.qrJoinInfo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.qrJoinInfos {
+    display: flex;
+    align-items: center;
+    width: 50%;
+}
+
+.JoinInfoTitles {
+    display: flex;
+    width: 25%;
+    margin: 16px 2%;
+}
+
+.JoinInfoContents {
+    width: 50%;
+    font-size: 14px;
+    height: 30px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #e5e6e7;
+}

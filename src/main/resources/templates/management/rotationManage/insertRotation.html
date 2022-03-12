@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<header>
+    <meta charset="UTF-8">
+</header>
+<form action="/uploadPicture" class="uploadPicture" enctype="multipart/form-data" target="toFrame" method="post">
+    <label class="upload" for="file">选择轮播图</label>
+    <input id="file" type="file" onchange="changePicture()" name="file" style="display: none"
+           accept="image/jpeg, image/png">
+    <img class="review">
+</form>
+<iframe hidden="hidden" id="toFrame" src="" frameborder="0" name="toFrame"></iframe>
+<form action="/insertRotation" class="insertRotation" method="post">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="rotationstatus" value="0">
+    <input type="hidden" id="image" name="image">
+    <div class="insertRotations">
+        <div class="iRotationTitles">网址 :</div>
+        <input id="iurl" name="url">
+    </div>
+    <div class="insertRotations">
+        <div class="iRotationTitles">信息 :</div>
+        <input id="iinformation" name="information">
+    </div>
+    <div class="insertRotations">
+        <div class="iRotationTitles">位置 :</div>
+        <select id="ilocation" name="location" onchange="changeLocation()">
+            <option th:text="选择位置" value=""></option>
+            <option th:text="位置一" value="1"></option>
+            <option th:text="位置二" value="2"></option>
+            <option th:text="位置三" value="3"></option>
+            <option th:text="位置四" value="4"></option>
+        </select>
+    </div>
+    <div class="insertButton">
+        <input style="border: #1ab394; background-color: #1ab394" id="rotationSubmit" type="submit" value="提交">
+        <!--        <input style="border:#f8ac59; background-color: #f8ac59" id="baseReset" type="reset" value="重置">-->
+    </div>
+</form>
+<script th:inline="javascript">
+    function changePicture() {
+        var reads = new FileReader();
+        var pics = document.querySelector("#file").files[0];
+        var size = (pics.size / 1024).toFixed(0);
+        reads.readAsDataURL(pics);
+        reads.onload = function (e) {
+            document.querySelector(".review").src = this.result;
+            if (size >= 1024) {
+                window.alert("图片最大不能超过1MB!")
+            } else {
+                $('.uploadPicture').submit();
+                $("#toFrame").load(function(){
+                    var text = $(this).contents().find("body").text(); //获取到的是json的字符串
+                    $("#image").val(text);
+                })
+            }
+        }
+    }
+    function changeLocation() {
+        for (var i in [[${locations}]]) {
+            if([[${locations}]][i].location == $('#ilocation').val()) {
+                window.alert("该位置已经被占用，请先下架或删除占用该位置的轮播图！")
+                $('#ilocation').val("")
+            }
+        }
+    }
+</script>
+</html>

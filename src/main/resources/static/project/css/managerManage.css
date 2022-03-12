@@ -1,0 +1,326 @@
+.interface {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 16px;
+    height: 657px;
+    width: 87%;
+    border-radius: 0;
+}
+
+.search {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    height: 64px;
+    width: 100%;
+    border: 1px solid #e5e6e7;
+    border-radius: 6px;
+    box-shadow: 1px 1px 3px rgb(0 0 0 / 20%)
+}
+
+.mSearch {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    height: 128px;
+    width: 100%;
+    border: 1px solid #e5e6e7;
+    border-radius: 6px;
+    box-shadow: 1px 1px 3px rgb(0 0 0 / 20%)
+}
+
+.formTitles {
+    margin: 0 8px;
+}
+
+.mFormTitles {
+    margin: 0 36px;
+}
+
+#nickname, #account, #phonenum {
+    width: 136px;
+    height: 30px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #e5e6e7;
+}
+
+#userstatus, #managerstatus {
+    width: 100px;
+    height: 30px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #e5e6e7;
+}
+
+#level {
+    width: 136px;
+    height: 30px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #e5e6e7;
+}
+
+#startime, #endtime {
+    width: 158px;
+    height: 30px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #e5e6e7;
+}
+
+#submit {
+    margin: 0 6px;
+    line-height: 30px;
+    height: 30px;
+    width: 52px;
+    text-align: center;
+    background-color: #1ab394;
+    border: 1px solid #1ab394;
+    border-radius: 4px;
+    color: #fff;
+}
+
+#resets {
+    margin: 0 6px;
+    line-height: 30px;
+    height: 30px;
+    width: 52px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #f8ac59;
+    border: 1px solid #f8ac59;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.managerTables {
+    display: flex;
+    flex-direction: column;
+    height: 520px;
+    width: 100%;
+    margin-top: 16px;
+    border: 1px solid #e5e6e7;
+    border-radius: 6px;
+    box-shadow: 1px 1px 3px rgb(0 0 0 / 20%)
+}
+
+.mManagerTables {
+    display: flex;
+    flex-direction: column;
+    height: 456px;
+    width: 100%;
+    margin-top: 16px;
+    border: 1px solid #e5e6e7;
+    border-radius: 6px;
+    box-shadow: 1px 1px 3px rgb(0 0 0 / 20%)
+}
+
+#insertData {
+    margin: 25px 2%;
+    line-height: 36px;
+    height: 36px;
+    width: 100px;
+    text-decoration: none;
+    text-align: center;
+    background-color: #1c84c6;
+    border: 1px solid #1c84c6;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.tableTitle {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    width: 96%;
+    margin: 0 2%;
+    background: #eff3f8;
+}
+
+.tableTitles {
+    padding-left: 30px;
+    width: 10.5%;
+}
+
+.tableTitlesu {
+    padding-left: 40px;
+    width: 12%;
+}
+
+.tableTitlesl {
+    text-align: center;
+    width: 11%;
+}
+
+.tableTitlest {
+    text-align: center;
+    width: 15%;
+}
+
+.tableTitlestu {
+    text-align: center;
+    width: 18%;
+}
+
+.tableTitlesz {
+    text-align: center;
+    width: 21.5%;
+}
+
+.tableTitleszu {
+    text-align: center;
+    width: 22%;
+}
+
+.tableData {
+    display: flex;
+    align-items: center;
+    height: 52px;
+    margin: 0 2%;
+    font-size: 14px;
+    width: 96%;
+    border-left: 1px solid #eff3f8;
+    border-right: 1px solid #eff3f8;
+    border-bottom: 1px solid #eff3f8;
+}
+
+.tableDatas {
+    padding-left: 30px;
+    width: 10.5%;
+}
+
+.tableDatasu {
+    padding-left: 40px;
+    width: 12%;
+}
+
+.tableDatasl {
+    text-align: center;
+    width: 11%;
+}
+
+.tableDatast {
+    text-align: center;
+    width: 15%;
+}
+
+.tableDatastu {
+    text-align: center;
+    width: 18%;
+}
+
+.tableDatasz {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    width: 21.5%;
+}
+
+.tableDataszu {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    width: 22%;
+}
+
+
+#updateData {
+    line-height: 28px;
+    text-decoration: none;
+    height: 28px;
+    width: 60px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #1c84c6;
+    border: 1px solid #1c84c6;
+    border-radius: 4px;
+    color: #fff;
+}
+
+#deleteData {
+    line-height: 28px;
+    text-decoration: none;
+    height: 28px;
+    width: 60px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #ed5565;
+    border: 1px solid #ed5565;
+    border-radius: 4px;
+    color: #fff;
+}
+
+#resetPasswords {
+    line-height: 28px;
+    text-decoration: none;
+    height: 28px;
+    width: 90px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #23c6c8;
+    border: 1px solid #23c6c8;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.insertManager {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.insertItem {
+    display: flex;
+    height: 35px;
+    align-items: center;
+    margin: 16px 4%;
+    width: 42%;
+}
+
+.itemTitle {
+    width: 25%;
+}
+
+.itemInput {
+    height: 35px;
+    width: 75%;
+    padding: 5px 10px;
+    border: 1px solid #e5e6e7;
+}
+
+.itemRadio {
+    padding: 0;
+    height: 14px;
+    width: 14px;
+}
+
+.insertButton {
+    display: flex;
+    width: 100%;
+    margin: 16px 4%;
+    align-items: center;
+    justify-content: center;
+}
+
+#submitz {
+    height: 35px;
+    width: 65px;
+    color: white;
+    margin: 0 5%;
+    padding: 0;
+    border: 0;
+    background: #189f92;
+}
+
+#resetz {
+    height: 35px;
+    width: 65px;
+    color: white;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: #f8ac59;
+}
+

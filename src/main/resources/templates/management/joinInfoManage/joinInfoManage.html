@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>报名管理</title>
+    <link rel="stylesheet" href="../../../static/component/bootstrap-3.3.7/css/bootstrap.css"
+          th:href="@{/component/bootstrap-3.3.7/css/bootstrap.css}">
+    <link rel="stylesheet" href="../../../static/project/css/frame.css"
+          th:href="@{/project/css/frame.css}">
+    <link rel="stylesheet" href="../../../static/project/css/joinInfoManage.css"
+          th:href="@{/project/css/joinInfoManage.css}">
+    <script src="../../../static/project/js/frame.js"
+            th:src="@{/project/js/frame.js}"></script>
+    <script src="../../../static/project/js/infoManage.js"
+            th:src="@{/project/js/infoManage.js}"></script>
+    <script src="../../../static/component/jquery-2.2.4.js"
+            th:src="@{/component/jquery-2.2.4.js}"></script>
+    <script src="../../../static/component/bootstrap-3.3.7/js/bootstrap.js"
+            th:src="@{/component/bootstrap-3.3.7/js/bootstrap.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="frame::header"></div>
+    <div class="body">
+        <div th:replace="frame::panelz(${7})"></div>
+        <div class="interface">
+            <form action="/joinInfoManage" class="joinInfoForm" method="get">
+                <div class="formTitles">用户昵称:</div>
+                <input id="unickname" name="unickname" th:value="${session.selectiveJoinInfo.unickname}">
+                <div class="formTitles">用户账号:</div>
+                <input id="uaccount" name="uaccount" th:value="${session.selectiveJoinInfo.uaccount}">
+                <div class="formTitles">管理员昵称:</div>
+                <input id="mnickname" name="mnickname" th:value="${session.selectiveJoinInfo.mnickname}">
+                <div class="formTitles">管理员账号:</div>
+                <input id="maccount" name="maccount" th:value="${session.selectiveJoinInfo.maccount}">
+                <div class="formTitles">活动名称:</div>
+                <input id="aname" name="aname" th:value="${session.selectiveJoinInfo.aname}">
+                <div class="formTitles">状态:</div>
+                <select id="infostatus" name="infostatus">
+                    <option th:selected="${session.selectiveJoinInfo.infostatus == ''}" value="">所有</option>
+                    <option th:selected="${session.selectiveJoinInfo.infostatus == 0}" value='0'>未通过</option>
+                    <option th:selected="${session.selectiveJoinInfo.infostatus == 1}" value='1'>已通过</option>
+                    <option th:selected="${session.selectiveJoinInfo.infostatus == 2}" value='2'>已取消</option>
+                    <option th:selected="${session.selectiveJoinInfo.infostatus == 4}" value='4'>未审核</option>
+                </select>
+                <div class="formTitles">更新时间:</div>
+                <input id="ustartime" name="ustartime" type="date"
+                       th:value="${#dates.format(session.selectiveJoinInfo.ustartime, 'yyyy-MM-dd')}">
+                <div class="formTitles">-</div>
+                <input id="uendtime" name="uendtime" type="date"
+                       th:value="${#dates.format(session.selectiveJoinInfo.uendtime, 'yyyy-MM-dd')}">
+                <div class="formTitles">创建时间:</div>
+                <input id="cstartime" name="cstartime" type="date"
+                       th:value="${#dates.format(session.selectiveJoinInfo.cstartime, 'yyyy-MM-dd')}">
+                <div class="formTitles">-</div>
+                <input id="cendtime" name="cendtime" type="date"
+                       th:value="${#dates.format(session.selectiveJoinInfo.cendtime, 'yyyy-MM-dd')}">
+                <input style="border: #1ab394; background-color: #1ab394" id="submit" type="submit" value="搜索">
+                <a style="border:#f8ac59; background-color: #f8ac59" id="resets" th:href="@{/joinInfoManage}">重置</a>
+            </form>
+            <div class="joinInfoLists">
+                <div class="listTitle">
+                    <div style="width: 5%" class="listTitles">ID</div>
+                    <div style="width: 7%" class="listTitles">用户昵称</div>
+                    <div style="width: 7%" class="listTitles">用户账号</div>
+                    <div style="width: 8%" class="listTitles">管理员昵称</div>
+                    <div style="width: 8%" class="listTitles">管理员账号</div>
+                    <div style="width: 8%" class="listTitles">活动名称</div>
+                    <div style="width: 5%" class="listTitles">状态</div>
+                    <div style="width: 5%" class="listTitles">人数</div>
+                    <div style="width: 5%" class="listTitles">总金额</div>
+                    <div class="listTitlesu">更新时间</div>
+                    <div class="listTitlesc">创建时间</div>
+                    <div class="listTitlesd">操作</div>
+                </div>
+                <div class="listData" th:each="joinInfoList,status : ${joinInfoList}">
+                    <div style="width: 5%" class="listTitles" th:text="${joinInfoList.id}">订单ID</div>
+                    <div style="width: 7%" class="listTitles" th:text="${joinInfoList.unickname}">用户昵称</div>
+                    <div style="width: 7%" class="listTitles" th:text="${joinInfoList.uaccount}">用户账户</div>
+                    <div style="width: 8%" class="listTitles" th:text="${joinInfoList.mnickname}">管理员昵称</div>
+                    <div style="width: 8%" class="listTitles" th:text="${joinInfoList.maccount}">管理员账号</div>
+                    <div style="width: 8%" class="listTitles" th:text="${joinInfoList.aname}">活动名称</div>
+                    <div style="width: 5%" class="listTitles" th:text="${joinInfoList.infostatusz}">状态</div>
+                    <div style="width: 5%" class="listTitles" th:text="${joinInfoList.usernums}+'人'">人数</div>
+                    <div style="width: 5%" class="listTitles" th:text="${joinInfoList.userprices}+'元'">金额</div>
+                    <div class="listTitlesu" th:text="${#dates.format(joinInfoList.updatetime, 'yyyy-MM-dd HH:mm:ss')}">
+                        更新时间
+                    </div>
+                    <div class="listTitlesc" th:text="${#dates.format(joinInfoList.createtime, 'yyyy-MM-dd HH:mm:ss')}">
+                        创建时间
+                    </div>
+                    <div class="listTitlesd">
+                        <a href="javascript:void(0)" id="qrJoinInfo" th:onclick="|qrJoinInfo(${joinInfoList.id})|"
+                           type="button" data-toggle="modal" data-backdrop="static" data-target="#qrJoinInfos">审核</a>
+                        <a href="javascript:void(0)" id="qxJoinInfo" th:onclick="|qxJoinInfo(${joinInfoList.id})|" type="button"
+                           th:if="${joinInfoList.infostatus} != 2" data-toggle="modal" data-backdrop="static" data-target="#qxJoinInfos">取消</a>
+                        <a href="javascript:void(0)" id="deleteJoinInfo" th:onclick="|deleteJoinInfo(${joinInfoList.id})|"
+                           type="button" data-toggle="modal" data-backdrop="static" data-target="#deleteJoinInfos">删除</a>
+                    </div>
+                </div>
+                <nav aria-label="Page navigation" class="text-center" style="margin: 0px;padding: 0px;">
+                    <ul class="pagination">
+                        <li th:if="${joinInfoList.pageNum}>1">
+                            <a th:href="@{/joinInfoManage(pageNum=1)}" aria-label="Previous">
+                                <span aria-hidden="true"><<</span>
+                            </a>
+                        </li>
+                        <li th:if="${joinInfoList.pageNum}>1">
+                            <a th:href="@{/joinInfoManage(pageNum=${joinInfoList.pageNum}-1)}">&lt;</a>
+                        </li>
+                        <li th:if="${joinInfoList.pageNum-3 gt 1}">
+                            <a th:text="${joinInfoList.pageNum-4}"
+                               th:href="@{/joinInfoManage(pageNum=${joinInfoList.pageNum}-4)}"></a>
+                        </li>
+                        <li th:if="${joinInfoList.pageNum-2 gt 1}">
+                            <a th:text="${joinInfoList.pageNum-3}"
+                               th:href="@{/joinInfoManage(pageNum=${joinInfoList.pageNum}-3)}"></a>
+                        </li>
+                        <li th:if="${joinInfoList.pageNum-1 gt 1}">
+                            <a th:text="${joinInfoList.pageNum-2}"
+                               th:href="@{/joinInfoManage(pageNum=${joinInfoList.pageNum}-2)}"></a>
+                        </li>
+                        <li th:if="${joinInfoList.pageNum gt 1}">
+                            <a th:text="${joinInfoList.pageNum-1}"
+                               th:href="@{/joinInfoManage(pageNum=${joinInfoList.pageNum}-1)}"></a>
+                        </li>
+                        <!--/* 当前页 */-->
+                        <li th:if="${joinInfoList.pageNum le joinInfoList.pages}"
+                            th:class="${joinInfoList.pageNum le joinInfoList.pages ? 'active':''}">
+                            <a th:text="${joinInfoList.pageNum}"
+                               th:href="@{/joinInfoManage(pageNum=${joinInfoList.pageNum})}"></a>
+                        </li>
+                        <li th:if="${joinInfoList.pageNum+1 le joinInfoList.pages}">
+                            <a th:text="${joinInfoList.pageNum+1}"
+                               th:href="@{/joinInfoManage(pageNum=${joinInfoList.pageNum}+1)}"></a>
+                        </li>
+                        <li th:if="${joinInfoList.pageNum+2 le joinInfoList.pages}">
+                            <a th:text="${joinInfoList.pageNum+2}"
+                               th:href="@{/joinInfoManage(pageNum=${joinInfoList.pageNum}+2)}"></a>
+                        </li>
+                        <li th:if="${joinInfoList.pageNum+3 le joinInfoList.pages}">
+                            <a th:text="${joinInfoList.pageNum+3}"
+                               th:href="@{/joinInfoManage(pageNum=${joinInfoList.pageNum}+3)}"></a>
+                        </li>
+                        <li th:if="${joinInfoList.pageNum lt joinInfoList.pages}">
+                            <a th:href="@{/joinInfoManage(pageNum=${joinInfoList.pageNum}+1)}">&gt;</a>
+                        </li>
+                        <li th:if="${joinInfoList.pageNum lt joinInfoList.pages}">
+                            <a th:href="@{/joinInfoManage(pageNum=${joinInfoList.pages})}" aria-label="Next">
+                                <span aria-hidden="true">>></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div th:replace="frame::modal"></div>
+    <div id="qrJoinInfos" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel1">信息审核</h4>
+                </div>
+                <div id="updateform-modal-body1" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="qxJoinInfos" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel2">确认取消</h4>
+                </div>
+                <div id="updateform-modal-body2" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="deleteJoinInfos" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel3">确认删除</h4>
+                </div>
+                <div id="updateform-modal-body3" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>基地管理</title>
+    <link rel="stylesheet" href="../../../static/component/bootstrap-3.3.7/css/bootstrap.css"
+          th:href="@{/component/bootstrap-3.3.7/css/bootstrap.css}">
+    <link rel="stylesheet" href="../../../static/project/css/baseManage.css"
+          th:href="@{/project/css/baseManage.css}">
+    <link rel="stylesheet" href="../../../static/project/css/frame.css"
+          th:href="@{/project/css/frame.css}">
+    <script src="../../../static/project/js/frame.js"
+            th:src="@{/project/js/frame.js}"></script>
+    <script src="../../../static/project/js/infoManage.js"
+            th:src="@{/project/js/infoManage.js}"></script>
+    <script src="../../../static/project/js/pcInfo.js"
+            th:src="@{/project/js/pcInfo.js}"></script>
+    <script src="../../../static/component/jquery-2.2.4.js"
+            th:src="@{/component/jquery-2.2.4.js}"></script>
+    <script src="../../../static/component/bootstrap-3.3.7/js/bootstrap.js"
+            th:src="@{/component/bootstrap-3.3.7/js/bootstrap.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="frame::header"></div>
+    <div class="body">
+        <div th:replace="frame::panelz(${6})"></div>
+        <div class="interface">
+            <form action="/baseManage" class="baseForm" method="get">
+                <div class="formTitles">基地名称:</div>
+                <input id="name" name="name" th:value="${session.selectiveBase.name}">
+                <div class="formTitles">类型:</div>
+                <select id="type" name="type">
+                    <option th:selected="${session.selectiveBase.type == ''}" value=''>不限</option>
+                    <option th:each="typeList,status : ${typeList}"
+                            th:selected="${session.selectiveBase.type == typeList.type}" th:value="${typeList.type}"
+                            th:text="${typeList.type}"></option>
+                    <!--                    <option th:selected="${session.selectiveBase.type == '徒步'}" value='徒步'>徒步</option>-->
+                    <!--                    <option th:selected="${session.selectiveBase.type == '自驾'}" value='自驾'>自驾</option>-->
+                    <!--                    <option th:selected="${session.selectiveBase.type == '温泉'}" value='温泉'>温泉</option>-->
+                    <!--                    <option th:selected="${session.selectiveBase.type == '沙漠'}" value='沙漠'>沙漠</option>-->
+                    <!--                    <option th:selected="${session.selectiveBase.type == '草原'}" value='草原'>草原</option>-->
+                    <!--                    <option th:selected="${session.selectiveBase.type == '海边'}" value='海边'>海边</option>-->
+                    <!--                    <option th:selected="${session.selectiveBase.type == '公园'}" value='公园'>公园</option>-->
+                    <!--                    <option th:selected="${session.selectiveBase.type == '景区'}" value='景区'>景区</option>-->
+                    <!--                    <option th:selected="${session.selectiveBase.type == '真人CS'}" value='真人CS'>真人CS</option>-->
+                </select>
+                <div class="formTitles">车程:</div>
+                <input id="hour" name="hour" th:value="${session.selectiveBase.hour}">
+                <div class="formTitles">状态:</div>
+                <select id="basestatus" name="basestatus">
+                    <option th:selected="${session.selectiveBase.basestatus == ''}" value="">所有</option>
+                    <option th:selected="${session.selectiveBase.basestatus == 0}" value='0'>未上架</option>
+                    <option th:selected="${session.selectiveBase.basestatus == 1}" value='1'>已上架</option>
+                </select>
+                <div class="formTitles">省:</div>
+                <select id="province" name="province" th:onchange="getCity()">
+                    <option value="">请选择省份</option>
+                </select>
+                <div class="formTitles">市:</div>
+                <select id="city" name="city">
+                    <option value="">请选择市区</option>
+                </select>
+                <div class="formTitles">更新时间:</div>
+                <input id="ustartime" name="ustartime" type="date"
+                       th:value="${#dates.format(session.selectiveBase.ustartime, 'yyyy-MM-dd')}">
+                <div class="formTitles">-</div>
+                <input id="uendtime" name="uendtime" type="date"
+                       th:value="${#dates.format(session.selectiveBase.uendtime, 'yyyy-MM-dd')}">
+                <div class="formTitles">创建时间:</div>
+                <input id="cstartime" name="cstartime" type="date"
+                       th:value="${#dates.format(session.selectiveBase.cstartime, 'yyyy-MM-dd')}">
+                <div class="formTitles">-</div>
+                <input id="cendtime" name="cendtime" type="date"
+                       th:value="${#dates.format(session.selectiveBase.cendtime, 'yyyy-MM-dd')}">
+                <input style="border: #1ab394; background-color: #1ab394" id="submit" type="submit" value="搜索">
+                <a style="border:#f8ac59; background-color: #f8ac59" id="resets" th:href="@{/baseManage}">重置</a>
+            </form>
+            <div class="baseLists">
+                <a href="javascript:void(0)" id="insertData" th:onclick="|insertBase()|" data-toggle="modal"
+                   data-backdrop="static"
+                   data-target="#insertBase">新增基地</a>
+                <div class="listTitle">
+                    <div class="listTitles">基地ID</div>
+                    <div class="listTitles">基地名称</div>
+                    <div class="listTitlest">缩略图</div>
+                    <div class="listTitles">类型</div>
+                    <div class="listTitles">车程</div>
+                    <div class="listTitles">状态</div>
+                    <div class="listTitlesl">地区</div>
+                    <div class="listTitlesu">更新时间</div>
+                    <div class="listTitlesc">创建时间</div>
+                    <div class="listTitlesd">操作</div>
+                </div>
+                <div class="listData" th:each="baseList,status : ${baseList}">
+                    <div class="listTitles" th:text="${baseList.id}">基地ID</div>
+                    <div class="listTitles" th:text="${baseList.name}">基地名称</div>
+                    <img style="max-height: 55px;border: 1px solid #e5e6e7;" class="listTitlest"
+                         th:src="${baseList.picture}">
+                    <div class="listTitles" th:text="${baseList.type}">类型</div>
+                    <div class="listTitles" th:text="${baseList.hour}+'小时'">车程</div>
+                    <div class="listTitles" th:text="${baseList.basestatusz}">状态</div>
+                    <div class="listTitlesl" th:text="${baseList.province}+${baseList.city}">地区</div>
+                    <div class="listTitlesu" th:text="${#dates.format(baseList.updatetime, 'yyyy-MM-dd HH:mm:ss')}">
+                        更新时间
+                    </div>
+                    <div class="listTitlesc" th:text="${#dates.format(baseList.createtime, 'yyyy-MM-dd HH:mm:ss')}">
+                        创建时间
+                    </div>
+                    <div class="listTitlesd">
+                        <a href="javascript:void(0)" id="updateData" th:onclick="|updateBase(${baseList.id})|"
+                           type="button" data-toggle="modal" data-backdrop="static"
+                           data-target="#updateBase">更新</a>
+                        <a href="javascript:void(0)" th:if="${baseList.basestatus} != 1" id="sj"
+                           th:onclick="|sjBase(${baseList.id})|" type="button" data-toggle="modal"
+                           data-backdrop="static"
+                           data-target="#sjBase">上架</a>
+                        <a href="javascript:void(0)" th:if="${baseList.basestatus} == 1" id="xj"
+                           th:onclick="|xjBase(${baseList.id})|" type="button" data-toggle="modal"
+                           data-backdrop="static"
+                           data-target="#xjBase">下架</a>
+                        <a href="javascript:void(0)" id="deleteBase" th:onclick="|deleteBase(${baseList.id})|"
+                           type="button" data-toggle="modal" data-backdrop="static"
+                           data-target="#deleteBases">删除</a>
+                    </div>
+                </div>
+                <nav aria-label="Page navigation" class="text-center" style="margin: 0px;padding: 0px;">
+                    <ul class="pagination">
+                        <li th:if="${baseList.pageNum}>1">
+                            <a th:href="@{/baseManage(pageNum=1)}" aria-label="Previous">
+                                <span aria-hidden="true"><<</span>
+                            </a>
+                        </li>
+                        <li th:if="${baseList.pageNum}>1">
+                            <a th:href="@{/baseManage(pageNum=${baseList.pageNum}-1)}">&lt;</a>
+                        </li>
+                        <li th:if="${baseList.pageNum-3 gt 1}">
+                            <a th:text="${baseList.pageNum-4}"
+                               th:href="@{/baseManage(pageNum=${baseList.pageNum}-4)}"></a>
+                        </li>
+                        <li th:if="${baseList.pageNum-2 gt 1}">
+                            <a th:text="${baseList.pageNum-3}"
+                               th:href="@{/baseManage(pageNum=${baseList.pageNum}-3)}"></a>
+                        </li>
+                        <li th:if="${baseList.pageNum-1 gt 1}">
+                            <a th:text="${baseList.pageNum-2}"
+                               th:href="@{/baseManage(pageNum=${baseList.pageNum}-2)}"></a>
+                        </li>
+                        <li th:if="${baseList.pageNum gt 1}">
+                            <a th:text="${baseList.pageNum-1}"
+                               th:href="@{/baseManage(pageNum=${baseList.pageNum}-1)}"></a>
+                        </li>
+                        <!--/* 当前页 */-->
+                        <li th:if="${baseList.pageNum le baseList.pages}"
+                            th:class="${baseList.pageNum le baseList.pages ? 'active':''}">
+                            <a th:text="${baseList.pageNum}" th:href="@{/baseManage(pageNum=${baseList.pageNum})}"></a>
+                        </li>
+                        <li th:if="${baseList.pageNum+1 le baseList.pages}">
+                            <a th:text="${baseList.pageNum+1}"
+                               th:href="@{/baseManage(pageNum=${baseList.pageNum}+1)}"></a>
+                        </li>
+                        <li th:if="${baseList.pageNum+2 le baseList.pages}">
+                            <a th:text="${baseList.pageNum+2}"
+                               th:href="@{/baseManage(pageNum=${baseList.pageNum}+2)}"></a>
+                        </li>
+                        <li th:if="${baseList.pageNum+3 le baseList.pages}">
+                            <a th:text="${baseList.pageNum+3}"
+                               th:href="@{/baseManage(pageNum=${baseList.pageNum}+3)}"></a>
+                        </li>
+                        <li th:if="${baseList.pageNum lt baseList.pages}">
+                            <a th:href="@{/baseManage(pageNum=${baseList.pageNum}+1)}">&gt;</a>
+                        </li>
+                        <li th:if="${baseList.pageNum lt baseList.pages}">
+                            <a th:href="@{/baseManage(pageNum=${baseList.pages})}" aria-label="Next">
+                                <span aria-hidden="true">>></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div th:replace="frame::modal"></div>
+    <div id="insertBase" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel1">新增信息</h4>
+                </div>
+                <div id="updateform-modal-body1" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="updateBase" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel2">更新信息</h4>
+                </div>
+                <div id="updateform-modal-body2" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="deleteBases" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel3">确认删除</h4>
+                </div>
+                <div id="updateform-modal-body3" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="sjBase" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel4">确认上架</h4>
+                </div>
+                <div id="updateform-modal-body4" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="xjBase" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel5">确认下架</h4>
+                </div>
+                <div id="updateform-modal-body5" class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    window.onload = function () {
+        getProvince();
+        getCity();
+    }
+
+    function getProvince() {
+        var province = document.querySelector("#province");
+        for (var i = 0; i < provinceArr.length; i++) {
+            province.options[province.options.length] = new Option(provinceArr[i], provinceArr[i]);
+            if ([[${session.selectiveBase.province}]] === province[i].text) {
+                document.querySelector("#province").options[i].selected = true;
+            }
+        }
+    }
+
+    function getCity() {
+        var provincesobj = document.getElementById("province");
+        var cityobj = document.getElementById("city");
+        var index = provincesobj.selectedIndex - 1;
+        var cityName = cityArr[index];
+        cityobj.length = 1;
+        for (var i = 1; i < cityArr[index].length; i++) {
+            cityobj.options[cityobj.options.length] = new Option(cityName[i], cityName[i]);
+            if ([[${session.selectiveBase.city}]] === cityName[i]) {
+                document.querySelector("#city").options[i].selected = true;
+            }
+        }
+    }
+</script>
+</body>
+</html>

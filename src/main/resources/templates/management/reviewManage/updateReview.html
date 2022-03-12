@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<header>
+    <meta charset="UTF-8">
+</header>
+<form action="/uploadPicture" class="uploadPicture" enctype="multipart/form-data" target="toFrame" method="post">
+    <label class="upload" for="file">选择缩略图</label>
+    <input id="file" type="file" onchange="changePicture()" name="file" style="display: none"
+           accept="image/jpeg, image/png">
+    <img class="review" th:src="${review.picture}">
+</form>
+<iframe hidden="hidden" id="toFrame" src="" frameborder="0" name="toFrame"></iframe>
+<form action="/updateReview" class="insertReview" method="post">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" id="picture" name="picture" th:value="${review.picture}">
+    <input type="hidden" name="reviewstatus" value="0">
+    <input type="hidden" id="id" name="id" th:value="${review.id}">
+    <div class="insertReviews">
+        <div class="ireviewTitles">回顾名称 :</div>
+        <input id="ititle" name="title"  th:value="${review.title}">
+    </div>
+    <div class="insertReviews">
+        <div class="ireviewTitles">相关活动 :</div>
+        <select id="irelationact" name="relationact">
+            <option th:text="选择活动" value=""></option>
+            <option th:each="activityList,status : ${activityList}"
+                    th:selected="${activityList.id == review.relationact}" th:value="${activityList.id}" th:text="${activityList.name}"></option>
+        </select>
+    </div>
+    <div class="insertContent">
+        <div class="ireviewTitles">回顾内容 :</div>
+        <div th:utext="${review.content}" style="margin-top: 16px" id="editor1"></div>
+        <input hidden="hidden" id="iContent" name="content" th:value="${review.content}">
+    </div>
+    <div class="insertButtons">
+        <input style="border: #1ab394; background-color: #1ab394" id="reviewSubmit" type="submit" value="提交">
+    </div>
+</form>
+<script type="text/javascript">
+    const E = window.wangEditor
+    const editor1 = new E('#editor1')
+    editor1.config.uploadImgServer = "/uploadImages"
+    editor1.config.uploadFileName = 'file'
+    editor1.config.uploadImgMaxSize = 1024 * 1024
+    editor1.config.uploadImgAccept = ['jpg', 'jpeg', 'png']
+    editor1.config.uploadImgMaxLength = 1
+    editor1.config.height = 250
+    editor1.config.excludeMenus = [
+        'video'
+    ]
+    editor1.config.onchange = function (html) {
+        $('#iContent').val(html)
+    }
+    editor1.create()
+</script>
+<script th:inline="javascript">
+    function changePicture() {
+        var reads = new FileReader();
+        var pics = document.querySelector("#file").files[0];
+        var size = (pics.size / 1024).toFixed(0);
+        reads.readAsDataURL(pics);
+        reads.onload = function (e) {
+            document.querySelector(".review").src = this.result;
+            if (size >= 1024) {
+                window.alert("图片最大不能超过1MB!")
+            }else {
+                $('.uploadPicture').submit();
+                $("#toFrame").load(function(){
+                    var text = $(this).contents().find("body").text(); //获取到的是json的字符串
+                    $("#picture").val(text);
+                })
+            }
+        }
+    }
+</script>
+</html>

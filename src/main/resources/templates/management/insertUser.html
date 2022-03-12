@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<header>
+    <meta charset="UTF-8">
+</header>
+<body>
+<div class="insertManager">
+    <form action="/insertUser" class="insertManager" method="post">
+        <div class="insertItem">
+            <div class="itemTitle">账号 :</div>
+            <input class="itemInput" name="account" type="text">
+        </div>
+        <div class="insertItem">
+            <div class="itemTitle">密码 :</div>
+            <input class="itemInput" name="password" type="text">
+        </div>
+        <div class="insertItem">
+            <div class="itemTitle">昵称 :</div>
+            <input class="itemInput" name="nickname" type="text">
+        </div>
+        <div class="insertItem">
+            <div class="itemTitle">手机号码 :</div>
+            <input class="itemInput" name="phonenum" type="text">
+        </div>
+        <div class="insertItem">
+            <div class="itemTitle">性别 :</div>
+            <input style="margin: 0 10px;" class="itemRadio" type="radio" name="sex" value="男"><span>男</span>
+            <input style="margin: 0 10px;" class="itemRadio" type="radio" name="sex" value="女"><span>女</span>
+        </div>
+        <div class="insertButton">
+            <input id="submitz" type="submit" value="保存">
+            <input id="resetz" type="reset" value="重置">
+        </div>
+    </form>
+</div>
+</body>
+</html>

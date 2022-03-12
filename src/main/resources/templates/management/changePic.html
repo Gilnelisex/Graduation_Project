@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<header>
+    <script src="../../static/project/js/changePic.js"
+            th:src="@{/project/js/changePic.js}"></script>
+    <meta charset="UTF-8">
+</header>
+<body>
+<div class="changPic">
+    <img class="review" th:src="${manager.picture}">
+    <form class="formPic" action="/uploadImage" enctype="multipart/form-data" method="post">
+        <input type="text" hidden="hidden" name="id" th:value="${session.manager.id}">
+        <label class="upload" for="file">上传图片</label>
+        <input id="file" type="file" onchange="changePics()" name="file" style="display: none"
+               accept="image/jpeg, image/png">
+        <input id="picSubmit" type="submit">
+    </form>
+</div>
+</body>
+</html>

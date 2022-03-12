@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<header>
+    <meta charset="UTF-8">
+</header>
+<iframe hidden="hidden" id="toFrame" src="" frameborder="0" name="toFrame"></iframe>
+<form action="/qrJoinInfo" class="qrJoinInfo" method="post">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" id="id" name="id" th:value="${joininfo.id}">
+    <input type="hidden" id="manageid" name="manageid" th:value="${session.manager.id}">
+    <div class="qrJoinInfos">
+        <div class="JoinInfoTitles">用户昵称 :</div>
+        <input class="JoinInfoContents" readonly="readonly" th:value="${user.nickname}">
+    </div>
+    <div class="qrJoinInfos">
+        <div class="JoinInfoTitles">用户账号 :</div>
+        <input class="JoinInfoContents" readonly="readonly" th:value="${user.account}">
+    </div>
+    <div class="qrJoinInfos">
+        <div class="JoinInfoTitles">用户姓名 :</div>
+        <input class="JoinInfoContents" readonly="readonly" th:value="${joininfo.username}">
+    </div>
+    <div class="qrJoinInfos">
+        <div class="JoinInfoTitles">预约活动 :</div>
+        <input class="JoinInfoContents" readonly="readonly" th:value="${activity.name}">
+    </div>
+    <div class="qrJoinInfos">
+        <div class="JoinInfoTitles">电话号码 :</div>
+        <input class="JoinInfoContents" readonly="readonly" th:value="${joininfo.userphone}">
+    </div>
+    <div class="qrJoinInfos">
+        <div class="JoinInfoTitles">身份证号码:</div>
+        <input class="JoinInfoContents" readonly="readonly" th:value="${joininfo.useridno}">
+    </div>
+    <div class="qrJoinInfos">
+        <div class="JoinInfoTitles">预约人数:</div>
+        <input class="JoinInfoContents" readonly="readonly" th:value="${joininfo.usernums}">
+    </div>
+    <div class="qrJoinInfos">
+        <div class="JoinInfoTitles">总金额:</div>
+        <input class="JoinInfoContents" readonly="readonly" th:value="${joininfo.userprices}">
+    </div>
+    <div class="qrJoinInfos">
+        <div class="JoinInfoTitles">预约时间:</div>
+        <input class="JoinInfoContents" readonly="readonly"
+               th:value="${#dates.format(joininfo.appointment, 'yyyy-MM-dd')}">
+    </div>
+    <div class="qrJoinInfos">
+        <div class="JoinInfoTitles">审核结果 :</div>
+        <input style="margin: 0 10px;" th:checked="${joininfo.infostatus == 0}" class="itemRadio" type="radio"
+               name="infostatus" value="0"><span>未通过</span>
+        <input style="margin: 0 10px;" th:checked="${joininfo.infostatus == 1}" class="itemRadio" type="radio"
+               name="infostatus" value="1"><span>已通过</span>
+    </div>
+    <div class="qrButton">
+        <input style="border: #1ab394; background-color: #1ab394" id="infoSubmit" type="submit" value="审核完毕">
+    </div>
+</form>
+</html>

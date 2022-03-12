@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>活动管理</title>
+    <link rel="stylesheet" href="../../../static/component/bootstrap-3.3.7/css/bootstrap.css"
+          th:href="@{/component/bootstrap-3.3.7/css/bootstrap.css}">
+    <link rel="stylesheet" href="../../../static/project/css/frame.css"
+          th:href="@{/project/css/frame.css}">
+    <link rel="stylesheet" href="../../../static/project/css/rotationManage.css"
+          th:href="@{/project/css/rotationManage.css}">
+    <script src="../../../static/project/js/frame.js"
+            th:src="@{/project/js/frame.js}"></script>
+    <script src="../../../static/project/js/infoManage.js"
+            th:src="@{/project/js/infoManage.js}"></script>
+    <script src="../../../static/component/jquery-2.2.4.js"
+            th:src="@{/component/jquery-2.2.4.js}"></script>
+    <script src="../../../static/component/bootstrap-3.3.7/js/bootstrap.js"
+            th:src="@{/component/bootstrap-3.3.7/js/bootstrap.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="frame::header"></div>
+    <div class="body">
+        <div th:replace="frame::panelz(${8})"></div>
+        <div class="interface">
+            <form action="/rotationManage" class="rotationForm" method="get">
+                <div class="formTitles">轮播图信息:</div>
+                <input style="width: 200px" id="information" name="information"
+                       th:value="${session.selectiveRotation.information}">
+                <div class="formTitles">更新时间:</div>
+                <input id="ustartime" name="ustartime" type="date"
+                       th:value="${#dates.format(session.selectiveRotation.ustartime, 'yyyy-MM-dd')}">
+                <div class="formTitles">-</div>
+                <input id="uendtime" name="uendtime" type="date"
+                       th:value="${#dates.format(session.selectiveRotation.uendtime, 'yyyy-MM-dd')}">
+                <div class="formTitles">创建时间:</div>
+                <input id="cstartime" name="cstartime" type="date"
+                       th:value="${#dates.format(session.selectiveRotation.cstartime, 'yyyy-MM-dd')}">
+                <div class="formTitles">-</div>
+                <input id="cendtime" name="cendtime" type="date"
+                       th:value="${#dates.format(session.selectiveRotation.cendtime, 'yyyy-MM-dd')}">
+                <div class="formTitles">轮播图位置:</div>
+                <select id="location" name="location">
+                    <option th:selected="${session.selectiveRotation.location == ''}" value="">所有</option>
+                    <option th:selected="${session.selectiveRotation.location == 1}" value='1'>位置一</option>
+                    <option th:selected="${session.selectiveRotation.location == 2}" value='2'>位置二</option>
+                    <option th:selected="${session.selectiveRotation.location == 3}" value='2'>位置三</option>
+                    <option th:selected="${session.selectiveRotation.location == 4}" value='2'>位置四</option>
+                </select>
+                <div class="formTitles">状态:</div>
+                <select id="rotationstatus" name="rotationstatus">
+                    <option th:selected="${session.selectiveRotation.rotationstatus == ''}" value="">所有</option>
+                    <option th:selected="${session.selectiveRotation.rotationstatus == 0}" value='0'>未上架</option>
+                    <option th:selected="${session.selectiveRotation.rotationstatus == 1}" value='1'>已上架</option>
+                </select>
+                <input style="border: #1ab394; background-color: #1ab394" id="submit" type="submit" value="搜索">
+                <a style="border:#f8ac59; background-color: #f8ac59" id="resets" th:href="@{/rotationManage}">重置</a>
+            </form>
+            <div class="rotationLists">
+                <a href="javascript:void(0)" id="insertRotation" th:onclick="|insertRotation()|" data-toggle="modal"
+                   data-backdrop="static" data-target="#insertRotations">新增轮播图</a>
+                <div class="listTitle">
+                    <div class="listTitles">轮播图ID</div>
+                    <div class="listTitlest">轮播图</div>
+                    <div class="listTitles">信息</div>
+                    <div class="listTitles">位置</div>
+                    <div class="listTitles">状态</div>
+                    <div class="listTitlesu">更新时间</div>
+                    <div class="listTitlesc">创建时间</div>
+                    <div class="listTitlesd">操作</div>
+                </div>
+                <div class="listData" th:each="rotationList,status : ${rotationList}">
+                    <div class="listTitles" th:text="${rotationList.id}">基地ID</div>
+                    <img style="max-height: 75px;border: 1px solid #e5e6e7;" class="listTitlest"
+                         th:src="${rotationList.image}">
+                    <div class="listTitles" th:text="${rotationList.information}">信息</div>
+                    <div class="listTitles" th:text="${rotationList.location}">位置</div>
+                    <div class="listTitles" th:text="${rotationList.rotationstatusz}">状态</div>
+                    <div class="listTitlesu" th:text="${#dates.format(rotationList.updatetime, 'yyyy-MM-dd HH:mm:ss')}">
+                        更新时间
+                    </div>
+                    <div class="listTitlesc" th:text="${#dates.format(rotationList.createtime, 'yyyy-MM-dd HH:mm:ss')}">
+                        创建时间
+                    </div>
+                    <div class="listTitlesd">
+                        <a href="javascript:void(0)" id="updateRotation" th:onclick="|updateRotation(${rotationList.id})|"
+                           type="button" data-toggle="modal" data-backdrop="static" data-target="#updateRotations">更新</a>
+                        <a href="javascript:void(0)" th:if="${rotationList.rotationstatus} != 1" id="sj"
+                           th:onclick="|sjRotation(${rotationList.id})|" type="button" data-toggle="modal"
+                           data-backdrop="static" data-target="#sjRotations">上架</a>
+                        <a href="javascript:void(0)" th:if="${rotationList.rotationstatus} == 1" id="xj"
+                           th:onclick="|xjRotation(${rotationList.id})|" type="button" data-toggle="modal"
+                           data-backdrop="static" data-target="#xjRotations">下架</a>
+                        <a href="javascript:void(0)" id="deleteRotation" th:onclick="|deleteRotation(${rotationList.id})|"
+                           type="button" data-toggle="modal" data-backdrop="static"
+                           data-target="#deleteRotations">删除</a>
+                    </div>
+                </div>
+                <nav aria-label="Page navigation" class="text-center" style="margin: 0px;padding: 0px;">
+                    <ul class="pagination">
+                        <li th:if="${rotationList.pageNum}>1">
+                            <a th:href="@{/rotationManage(pageNum=1)}" aria-label="Previous">
+                                <span aria-hidden="true"><<</span>
+                            </a>
+                        </li>
+                        <li th:if="${rotationList.pageNum}>1">
+                            <a th:href="@{/rotationManage(pageNum=${rotationList.pageNum}-1)}">&lt;</a>
+                        </li>
+                        <li th:if="${rotationList.pageNum-3 gt 1}">
+                            <a th:text="${rotationList.pageNum-4}"
+                               th:href="@{/rotationManage(pageNum=${rotationList.pageNum}-4)}"></a>
+                        </li>
+                        <li th:if="${rotationList.pageNum-2 gt 1}">
+                            <a th:text="${rotationList.pageNum-3}"
+                               th:href="@{/rotationManage(pageNum=${rotationList.pageNum}-3)}"></a>
+                        </li>
+                        <li th:if="${rotationList.pageNum-1 gt 1}">
+                            <a th:text="${rotationList.pageNum-2}"
+                               th:href="@{/rotationManage(pageNum=${rotationList.pageNum}-2)}"></a>
+                        </li>
+                        <li th:if="${rotationList.pageNum gt 1}">
+                            <a th:text="${rotationList.pageNum-1}"
+                               th:href="@{/rotationManage(pageNum=${rotationList.pageNum}-1)}"></a>
+                        </li>
+                        <!--/* 当前页 */-->
+                        <li th:if="${rotationList.pageNum le rotationList.pages}"
+                            th:class="${rotationList.pageNum le rotationList.pages ? 'active':''}">
+                            <a th:text="${rotationList.pageNum}" th:href="@{/rotationManage(pageNum=${rotationList.pageNum})}"></a>
+                        </li>
+                        <li th:if="${rotationList.pageNum+1 le rotationList.pages}">
+                            <a th:text="${rotationList.pageNum+1}"
+                               th:href="@{/rotationManage(pageNum=${rotationList.pageNum}+1)}"></a>
+                        </li>
+                        <li th:if="${rotationList.pageNum+2 le rotationList.pages}">
+                            <a th:text="${rotationList.pageNum+2}"
+                               th:href="@{/rotationManage(pageNum=${rotationList.pageNum}+2)}"></a>
+                        </li>
+                        <li th:if="${rotationList.pageNum+3 le rotationList.pages}">
+                            <a th:text="${rotationList.pageNum+3}"
+                               th:href="@{/rotationManage(pageNum=${rotationList.pageNum}+3)}"></a>
+                        </li>
+                        <li th:if="${rotationList.pageNum lt rotationList.pages}">
+                            <a th:href="@{/rotationManage(pageNum=${rotationList.pageNum}+1)}">&gt;</a>
+                        </li>
+                        <li th:if="${rotationList.pageNum lt rotationList.pages}">
+                            <a th:href="@{/rotationManage(pageNum=${rotationList.pages})}" aria-label="Next">
+                                <span aria-hidden="true">>></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div th:replace="frame::modal"></div>
+        <div id="insertRotations" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+             aria-labelledby="myLargeModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel1">新增轮播图</h4>
+                    </div>
+                    <div id="updateform-modal-body1" class="modal-body">
+                        ...
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="updateRotations" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+             aria-labelledby="myLargeModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel2">更新轮播图</h4>
+                    </div>
+                    <div id="updateform-modal-body2" class="modal-body">
+                        ...
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="deleteRotations" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+             aria-labelledby="myLargeModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel3">确认删除</h4>
+                    </div>
+                    <div id="updateform-modal-body3" class="modal-body">
+                        ...
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="sjRotations" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+             aria-labelledby="myLargeModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel4">确认上架</h4>
+                    </div>
+                    <div id="updateform-modal-body4" class="modal-body">
+                        ...
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="xjRotations" class="modal fade bs-updateform-modal-lg" tabindex="-1" role="dialog"
+             aria-labelledby="myLargeModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel5">确认下架</h4>
+                    </div>
+                    <div id="updateform-modal-body5" class="modal-body">
+                        ...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
