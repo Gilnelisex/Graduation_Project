@@ -15,7 +15,7 @@
 <form action="/updateBase" class="insertBase" method="post">
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="basestatus" value="0">
-    <input type="hidden" id="image" name="image" th:value="${base.picture}">
+    <input type="hidden" id="picture" name="picture" th:value="${base.picture}">
     <input type="hidden" id="id" name="id" th:value="${base.id}">
     <div class="insertBases">
         <div class="ibaseTitles">基地名称 :</div>
@@ -127,7 +127,7 @@
                 $('.uploadPicture').submit();
                 $("#toFrame").load(function(){
                     var text = $(this).contents().find("body").text(); //获取到的是json的字符串
-                    $("#image").val(text);
+                    $("#picture").val(text);
                 })
             }
         }

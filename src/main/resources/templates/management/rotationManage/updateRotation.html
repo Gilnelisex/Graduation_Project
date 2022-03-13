@@ -16,7 +16,7 @@
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="id" th:value="${rotation.id}">
     <input type="hidden" name="rotationstatus" value="0">
-    <input type="hidden" id="picture" name="picture">
+    <input type="hidden" id="image" name="image" th:value="${rotation.image}">
     <div class="insertRotations">
         <div class="iRotationTitles">网址 :</div>
         <input id="iurl" name="url" th:value="${rotation.url}">
@@ -54,7 +54,7 @@
                 $('.uploadPicture').submit();
                 $("#toFrame").load(function(){
                     var text = $(this).contents().find("body").text(); //获取到的是json的字符串
-                    $("#picture").val(text);
+                    $("#image").val(text);
                 })
             }
         }
