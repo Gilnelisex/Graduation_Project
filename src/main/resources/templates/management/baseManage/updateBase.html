@@ -9,9 +9,9 @@
     <label class="upload" for="file">更改缩略图</label>
     <input id="file" type="file" onchange="changePicture()" name="file" style="display: none"
            accept="image/jpeg, image/png">
-    <img class="review" id="toFrame" th:src="${base.picture}">
+    <img class="review" th:src="${base.picture}">
 </form>
-<iframe hidden="hidden" src="" frameborder="0" name="toFrame"></iframe>
+<iframe hidden="hidden" id="toFrame" src="" frameborder="0" name="toFrame"></iframe>
 <form action="/updateBase" class="insertBase" method="post">
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="basestatus" value="0">
