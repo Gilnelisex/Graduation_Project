@@ -75,7 +75,7 @@
                 </div>
                 <div class="listData" th:each="rotationList,status : ${rotationList}">
                     <div class="listTitles" th:text="${rotationList.id}">基地ID</div>
-                    <img style="max-height: 75px;border: 1px solid #e5e6e7;" class="listTitlest"
+                    <img style="max-height: 60px;border: 1px solid #e5e6e7;" class="listTitlest"
                          th:src="${rotationList.image}">
                     <div class="listTitles" th:text="${rotationList.information}">信息</div>
                     <div class="listTitles" th:text="${rotationList.location}">位置</div>
