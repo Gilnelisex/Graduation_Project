@@ -38,7 +38,7 @@
     <select id="selectAllJoinInfo" parameterType="com.example.test.domain.Joininfo" resultMap="BaseResultMap">
         select j.*, d.RelationValue InfoStatusz, u.Nickname UNickname, u.Account UAccount, m.Nickname MNickname,
         m.Account MAccount, a.Name AName
-        from (((joininfo j left join users u on (j.ActID = u.id)) left join managers m on (j.ManageID = m.id)) left join
+        from (((joininfo j left join users u on (j.UserID = u.id)) left join managers m on (j.ManageID = m.id)) left join
         activity a on (j.ActID = a.id))
         left join dictionary d on (d.RelationName = 'InfoStatus' and j.InfoStatus = d.RelationID)
         <where>

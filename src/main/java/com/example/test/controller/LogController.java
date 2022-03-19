@@ -20,7 +20,7 @@ public class LogController {
     ManagersService managersService;
 
     @GetMapping("/")
-    public String voids(HttpServletRequest request, Model model) {
+    public String voids(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
