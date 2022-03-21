@@ -13,6 +13,10 @@ import java.util.List;
 */
 public interface BaseMapper {
 
+    Integer selectCount();
+
+    Integer selectCountToday();
+
     List<Base> selectAllBaseName();
 
     List<Base> selectAllType();

@@ -11,6 +11,10 @@ import java.util.List;
  */
 public interface BaseService {
 
+    Integer selectCount();
+
+    Integer selectCountToday();
+
     List<Base> selectAllBaseName();
 
     List<Base> selectAllType();

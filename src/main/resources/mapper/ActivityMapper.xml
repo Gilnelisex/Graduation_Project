@@ -33,6 +33,18 @@
         ActStatus,CreateTime,UpdateTime
     </sql>
 
+    <select id="selectCount" resultType="Integer">
+        select count(*)
+        from activity
+        where ActStatus != 2
+    </select>
+
+    <select id="selectCountToday" resultType="Integer">
+        select count(*)
+        from activity
+        where ActStatus != 2 and date_format(CreateTime, '%Y-%c-%d') = curdate()
+    </select>
+
     <select id="selectAllType" resultMap="BaseResultMap">
         select distinct (Type)
         from activity

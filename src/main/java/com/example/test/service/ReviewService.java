@@ -12,6 +12,10 @@ import java.util.List;
 */
 public interface ReviewService {
 
+    Integer selectCount();
+
+    Integer selectCountToday();
+
     List<Review> selectAllReview(Review review, Integer pageNum, Integer pageSize);
 
     int insertSelective(Review record);

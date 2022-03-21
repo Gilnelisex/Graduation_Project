@@ -35,10 +35,24 @@
         Appointment
     </sql>
 
+    <select id="selectCount" resultType="Integer">
+        select count(*)
+        from joininfo
+        where InfoStatus in (1, 4)
+    </select>
+
+    <select id="selectCountToday" resultType="Integer">
+        select count(*)
+        from joininfo
+        where InfoStatus in (1, 4)
+          and date_format(CreateTime, '%Y-%c-%d') = curdate()
+    </select>
+
     <select id="selectAllJoinInfo" parameterType="com.example.test.domain.Joininfo" resultMap="BaseResultMap">
         select j.*, d.RelationValue InfoStatusz, u.Nickname UNickname, u.Account UAccount, m.Nickname MNickname,
         m.Account MAccount, a.Name AName
-        from (((joininfo j left join users u on (j.UserID = u.id)) left join managers m on (j.ManageID = m.id)) left join
+        from (((joininfo j left join users u on (j.UserID = u.id)) left join managers m on (j.ManageID = m.id)) left
+        join
         activity a on (j.ActID = a.id))
         left join dictionary d on (d.RelationName = 'InfoStatus' and j.InfoStatus = d.RelationID)
         <where>

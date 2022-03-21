@@ -24,11 +24,6 @@ public class ManagementController {
     @Autowired
     UsersService usersService;
 
-    @GetMapping("/management")
-    public String management() {
-        return "management/homePage";
-    }
-
     @GetMapping("/personalCenter")
     public String personalCenterBase() {
         return "management/personalCenter";

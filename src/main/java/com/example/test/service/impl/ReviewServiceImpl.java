@@ -20,6 +20,16 @@ public class ReviewServiceImpl implements ReviewService{
     ReviewMapper reviewMapper;
 
     @Override
+    public Integer selectCount() {
+        return this.reviewMapper.selectCount();
+    }
+
+    @Override
+    public Integer selectCountToday() {
+        return this.reviewMapper.selectCountToday();
+    }
+
+    @Override
     public List<Review> selectAllReview(Review review, Integer pageNum, Integer pageSize) {
         return this.reviewMapper.selectAllReview(review, pageNum, pageSize);
     }

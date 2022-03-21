@@ -13,6 +13,10 @@ import java.util.List;
 */
 public interface JoininfoMapper {
 
+    Integer selectCount();
+
+    Integer selectCountToday();
+
     List<Joininfo> selectAllJoinInfo(@Param("joininfo") Joininfo record,
                                                     @Param("pageNum") Integer pageNum,
                                                     @Param("pageSize") Integer pageSize);

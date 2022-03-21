@@ -20,6 +20,16 @@ public class ActivityServiceImpl implements ActivityService {
     ActivityMapper activityMapper;
 
     @Override
+    public Integer selectCount() {
+        return this.activityMapper.selectCount();
+    }
+
+    @Override
+    public Integer selectCountToday() {
+        return this.activityMapper.selectCountToday();
+    }
+
+    @Override
     public List<Activity> selectAllActivity(Activity record, Integer pageNum, Integer pageSize) {
         return this.activityMapper.selectAllActivity(record, pageNum, pageSize);
     }

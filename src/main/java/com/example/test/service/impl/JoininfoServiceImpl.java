@@ -9,15 +9,25 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
-* @author Forzh
-* @description 针对表【joininfo】的数据库操作Service实现
-* @createDate 2022-03-11 18:06:54
-*/
+ * @author Forzh
+ * @description 针对表【joininfo】的数据库操作Service实现
+ * @createDate 2022-03-11 18:06:54
+ */
 @Service
-public class JoininfoServiceImpl implements JoininfoService{
+public class JoininfoServiceImpl implements JoininfoService {
 
     @Autowired
     JoininfoMapper joininfoMapper;
+
+    @Override
+    public Integer selectCount() {
+        return this.joininfoMapper.selectCount();
+    }
+
+    @Override
+    public Integer selectCountToday() {
+        return this.joininfoMapper.selectCountToday();
+    }
 
     @Override
     public List<Joininfo> selectAllJoinInfo(Joininfo record, Integer pageNum, Integer pageSize) {

@@ -9,12 +9,16 @@
           th:href="@{/component/bootstrap-3.3.7/css/bootstrap.css}">
     <link rel="stylesheet" href="../../static/project/css/frame.css"
           th:href="@{/project/css/frame.css}">
+    <link rel="stylesheet" href="../../static/project/css/homePage.css"
+          th:href="@{/project/css/homePage.css}">
     <script src="../../static/project/js/frame.js"
             th:src="@{/project/js/frame.js}"></script>
     <script src="../../static/component/jquery-2.2.4.js"
             th:src="@{/component/jquery-2.2.4.js}"></script>
     <script src="../../static/component/bootstrap-3.3.7/js/bootstrap.js"
             th:src="@{/component/bootstrap-3.3.7/js/bootstrap.js}"></script>
+    <script src="../../static/component/echarts.min.js"
+            th:src="@{/component/echarts.min.js}"></script>
 </head>
 <body>
 <div class="container">
@@ -22,9 +26,89 @@
     <div class="body">
         <div th:replace="frame::panelz(${1})"></div>
         <div class="interface">
+            <div class="row1">
+                <a style="width: 22%;text-decoration: none;color: #4f4f4f;"  th:href="@{/joinInfoManage}">
+                    <div class="row1s">
+                        <div class="column1-1" style="background: #00c1f2">
+                            <img th:src="@{/project/image/baoming.png}">
+                            报名信息
+                        </div>
+                        <div class="column1-2">
+                            <div class="column1-2s" th:text="'今日：'+${joinInfoCountToday}"></div>
+                            <div class="column1-2s" th:text="'累计：'+${joinInfoCount}"></div>
+                        </div>
+                    </div>
+                </a>
+                <a style="width: 22%;text-decoration: none;color: #4f4f4f;"  th:href="@{/activityManage}">
+                    <div class="row1s">
+                        <div class="column1-1" style="background: #9f9f00">
+                            <img th:src="@{/project/image/huodongxiangqu.png}">
+                            活动发布
+                        </div>
+                        <div class="column1-2">
+                            <div class="column1-2s" th:text="'今日：'+${activityCountToday}"></div>
+                            <div class="column1-2s" th:text="'累计：'+${activityCount}"></div>
+                        </div>
+                    </div>
+                </a>
+                <a style="width: 22%;text-decoration: none;color: #4f4f4f;"  th:href="@{/baseManage}">
+                    <div class="row1s">
+                        <div class="column1-1" style="background: #cc6633">
+                            <img th:src="@{/project/image/shengchanjidi.png}">
+                            基地发布
+                        </div>
+                        <div class="column1-2">
+                            <div class="column1-2s" th:text="'今日：'+${baseCountToday}"></div>
+                            <div class="column1-2s" th:text="'累计：'+${baseCount}"></div>
+                        </div>
+                    </div>
+                </a>
+                <a style="width: 22%;text-decoration: none;color: #4f4f4f;"  th:href="@{/reviewManage}">
+                    <div class="row1s">
+                        <div class="column1-1" style="background: #fdc502">
+                            <img th:src="@{/project/image/bianjiwenzhang_huaban.png}">
+                            回顾发布
+                        </div>
+                        <div class="column1-2">
+                            <div class="column1-2s" th:text="'今日：'+${reviewCountToday}"></div>
+                            <div class="column1-2s" th:text="'累计：'+${reviewCount}"></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div id="main" style="width: 800px; height: 400px">
+
+            </div>
         </div>
     </div>
     <div th:replace="frame::modal"></div>
 </div>
+<script th:inline="javascript" type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '本月基地营业额'
+        },
+        tooltip: {},
+        legend: {
+            data: ['营业额']
+        },
+        xAxis: {
+            data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+        },
+        yAxis: {},
+        series: [
+            {
+                name: '营业额',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 800]
+            }
+        ]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
 </body>
 </html>

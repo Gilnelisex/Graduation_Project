@@ -24,6 +24,18 @@
         CreateTime,UpdateTime,RelationAct
     </sql>
 
+    <select id="selectCount" resultType="Integer">
+        select count(*)
+        from review
+        where ReviewStatus != 2
+    </select>
+
+    <select id="selectCountToday" resultType="Integer">
+        select count(*)
+        from review
+        where ReviewStatus != 2 and date_format(CreateTime, '%Y-%c-%d') = curdate()
+    </select>
+
     <select id="selectAllReview" parameterType="com.example.test.domain.Review" resultMap="BaseResultMap">
         select r.*,  d.RelationValue ReviewStatusz, a.name RelationActz
         from (review r left join dictionary d on (d.RelationName = 'ReviewStatus' and r.ReviewStatus = d.RelationID)) left join activity a on (r.RelationAct = a.id)

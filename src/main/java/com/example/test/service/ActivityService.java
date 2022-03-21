@@ -11,6 +11,10 @@ import java.util.List;
  */
 public interface ActivityService {
 
+    Integer selectCount();
+
+    Integer selectCountToday();
+
     List<Activity> selectAllActivity(Activity record, Integer pageNum, Integer pageSize);
 
     List<Activity> selectAllType();

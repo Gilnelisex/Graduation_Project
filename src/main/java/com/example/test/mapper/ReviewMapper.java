@@ -14,6 +14,10 @@ import java.util.List;
 */
 public interface ReviewMapper {
 
+    Integer selectCount();
+
+    Integer selectCountToday();
+
     List<Review> selectAllReview(@Param("review") Review review,
                                                 @Param("pageNum") Integer pageNum,
                                                 @Param("pageSize") Integer pageSize);

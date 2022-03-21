@@ -12,6 +12,10 @@ import java.util.List;
 */
 public interface JoininfoService {
 
+    Integer selectCount();
+
+    Integer selectCountToday();
+
     List<Joininfo> selectAllJoinInfo(Joininfo record, Integer pageNum, Integer pageSize);
 
     int insertSelective(Joininfo record);

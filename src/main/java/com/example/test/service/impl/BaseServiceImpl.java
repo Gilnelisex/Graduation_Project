@@ -20,6 +20,16 @@ public class BaseServiceImpl implements BaseService {
     BaseMapper baseMapper;
 
     @Override
+    public Integer selectCount() {
+        return this.baseMapper.selectCount();
+    }
+
+    @Override
+    public Integer selectCountToday() {
+        return this.baseMapper.selectCountToday();
+    }
+
+    @Override
     public List<Base> selectAllBaseName() {
         return this.baseMapper.selectAllBaseName();
     }

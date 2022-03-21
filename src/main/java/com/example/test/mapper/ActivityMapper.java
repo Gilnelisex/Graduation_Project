@@ -13,6 +13,10 @@ import java.util.List;
 */
 public interface ActivityMapper {
 
+    Integer selectCount();
+
+    Integer selectCountToday();
+
     List<Activity> selectAllActivity(@Param("activity") Activity record,
                                      @Param("pageNum") Integer pageNum,
                                      @Param("pageSize") Integer pageSize);
