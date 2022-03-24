@@ -26,14 +26,48 @@
         <result property="appointment" column="Appointment" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <resultMap id="StatisticalResults" type="com.example.test.domain.StatisticalResults">
+        <result property="basename" column="BaseName" jdbcType="VARCHAR"/>
+        <result property="years" column="Years" jdbcType="VARCHAR"/>
+        <result property="months" column="Months" jdbcType="VARCHAR"/>
+        <result property="querytime" column="QueryTime" jdbcType="TIMESTAMP"/>
+        <result property="pricecount" column="PriceCount" jdbcType="INTEGER"/>
+    </resultMap>
+
     <sql id="Base_Column_List">
-        ID
-        ,ActID,UserID,
+        ID,ActID,UserID,
         ManageID,InfoStatus,CreateTime,
         UpdateTime,UserName,UserPhone,
         UserIdNo,UserNums,UserPrices,
         Appointment
     </sql>
+
+    <select id="selectYear" resultMap="StatisticalResults">
+        select distinct(date_format(CreateTime, '%Y')) Years
+        from joininfo
+    </select>
+
+    <select id="selectMonth" parameterType="StatisticalResults" resultMap="StatisticalResults">
+        select distinct(date_format(CreateTime, '%c')) Months
+        from joininfo
+        where date_format(CreateTime, '%Y') = date_format(#{querytime}, '%Y')
+    </select>
+
+    <select id="selectMoneysByYDate" parameterType="StatisticalResults" resultMap="StatisticalResults">
+        select sum(j.UserPrices) pricecount, b.name BaseName
+        from (joininfo j left join activity a on (j.actid = a.id)) left join base b on (a.field = b.id)
+        where date_format(j.CreateTime, '%Y') = date_format(#{querytime}, '%Y')
+        group by b.id
+        order by sum(j.UserPrices) desc
+    </select>
+
+    <select id="selectMoneysByDate" parameterType="StatisticalResults" resultMap="StatisticalResults">
+        select sum(j.UserPrices) pricecount, b.name BaseName
+        from (joininfo j left join activity a on (j.actid = a.id)) left join base b on (a.field = b.id)
+        where date_format(j.CreateTime, '%Y-%c') = date_format(#{querytime}, '%Y-%c')
+        group by b.id
+        order by sum(j.UserPrices) desc
+    </select>
 
     <select id="selectCount" resultType="Integer">
         select count(*)

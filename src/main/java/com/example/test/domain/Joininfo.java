@@ -42,6 +42,7 @@ public class Joininfo implements Serializable {
     /**
      * 
      */
+
     private Integer infostatus;
 
     private String infostatusz;
@@ -56,11 +57,13 @@ public class Joininfo implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date cendtime;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createtime;
 
     /**
      * 
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date updatetime;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")

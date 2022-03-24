@@ -27,7 +27,7 @@
         <div th:replace="frame::panelz(${1})"></div>
         <div class="interface">
             <div class="row1">
-                <a style="width: 22%;text-decoration: none;color: #4f4f4f;"  th:href="@{/joinInfoManage}">
+                <a style="width: 22%;text-decoration: none;color: #4f4f4f;" th:href="@{/joinInfoManage}">
                     <div class="row1s">
                         <div class="column1-1" style="background: #00c1f2">
                             <img th:src="@{/project/image/baoming.png}">
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </a>
-                <a style="width: 22%;text-decoration: none;color: #4f4f4f;"  th:href="@{/activityManage}">
+                <a style="width: 22%;text-decoration: none;color: #4f4f4f;" th:href="@{/activityManage}">
                     <div class="row1s">
                         <div class="column1-1" style="background: #9f9f00">
                             <img th:src="@{/project/image/huodongxiangqu.png}">
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                 </a>
-                <a style="width: 22%;text-decoration: none;color: #4f4f4f;"  th:href="@{/baseManage}">
+                <a style="width: 22%;text-decoration: none;color: #4f4f4f;" th:href="@{/baseManage}">
                     <div class="row1s">
                         <div class="column1-1" style="background: #cc6633">
                             <img th:src="@{/project/image/shengchanjidi.png}">
@@ -63,7 +63,7 @@
                         </div>
                     </div>
                 </a>
-                <a style="width: 22%;text-decoration: none;color: #4f4f4f;"  th:href="@{/reviewManage}">
+                <a style="width: 22%;text-decoration: none;color: #4f4f4f;" th:href="@{/reviewManage}">
                     <div class="row1s">
                         <div class="column1-1" style="background: #fdc502">
                             <img th:src="@{/project/image/bianjiwenzhang_huaban.png}">
@@ -76,39 +76,234 @@
                     </div>
                 </a>
             </div>
-            <div id="main" style="width: 800px; height: 400px">
-
+            <div class="selector">
+                <select id="years" th:onchange="getMonth()">
+                    <option value="">请选择年份</option>
+                </select>
+                <select id="months" th:onchange="loads()">
+                    <option value="">请选择月份</option>
+                </select>
             </div>
+            <div id="main" style="width: 100%; height: 500px;margin: 10px 0"></div>
         </div>
     </div>
     <div th:replace="frame::modal"></div>
 </div>
 <script th:inline="javascript" type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
-    // 指定图表的配置项和数据
-    var option = {
-        title: {
-            text: '本月基地营业额'
-        },
-        tooltip: {},
-        legend: {
-            data: ['营业额']
-        },
-        xAxis: {
-            data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
-        },
-        yAxis: {},
-        series: [
-            {
-                name: '营业额',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 800]
+    $(document).ready(function () {
+        var date = new Date
+        loadym(date.getFullYear(), (date.getMonth() + 1))
+        getYear()
+    })
+
+    function getYear() {
+        var year = document.querySelector("#years");
+        $.ajax({
+            url: "/selectYear",
+            method: "get",
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    year.options[year.options.length] = new Option(data[i].years + '年', data[i].years);
+                }
             }
-        ]
-    };
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
+        })
+    }
+
+    function getMonth() {
+        var year = $("#years").val()
+        var months = document.querySelector("#months");
+        if (year === "") {
+            var date = new Date
+            year = date.getFullYear()
+            $("#months").val("")
+            months.length = 1
+            loadym(year, (date.getMonth() + 1))
+        } else {
+            loady(year)
+            $.ajax({
+                url: "/selectMonth",
+                method: "get",
+                data: {
+                    "querytime": year + '-1'
+                },
+                success: function (data) {
+                    months.length = 1
+                    for (var i = 0; i < data.length; i++) {
+                        months.options[months.options.length] = new Option(data[i].months + '月', data[i].months);
+                    }
+                }
+            })
+        }
+    }
+
+    function loads() {
+        var years = $("#years").val()
+        var months = $("#months").val()
+        if (months === "") {
+            var date = new Date
+            months = date.getMonth() + 1
+        }
+        loadym(years, months)
+    }
+
+    function loady(a) {
+        $.ajax({
+            url: "/selectMoneysByYear",
+            method: "get",
+            data: {
+                "querytime": a + '-1'
+            },
+            success: function (data) {
+                var names = [];
+                var prices = [];
+                for (var i = 0; i < data.length; i++) {
+                    names[i] = data[i].basename;
+                    if (data[i].pricecount == null) {
+                        prices[i] = 0;
+                    } else {
+                        prices[i] = data[i].pricecount;
+                    }
+                }
+                var myChart = echarts.init(document.getElementById('main'));
+                // 指定图表的配置项和数据
+                myChart.setOption({
+                    title: {
+                        text: a + '年基地总营业额'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data: ['营业额']
+                    },
+                    xAxis: {
+                        data: names
+                    },
+                    yAxis: {},
+                    series: [
+                        {
+                            name: '营业额（元）',
+                            type: 'bar',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top'
+                                }
+                            },
+                            itemStyle: {
+                                normal: {
+                                    // 随机显示
+                                    // color:function(d){return "#"+Math.floor(Math.random()*(256*256*256-1)).toString(16);}
+                                    color: function (params) {
+                                        var colorList = [
+                                            '#C33531',
+                                            '#EFE42A',
+                                            '#64BD3D',
+                                            '#EE9201',
+                                            '#29AAE3',
+                                            '#B74AE5',
+                                            '#0AAF9F',
+                                            '#E89589',
+                                            '#16A085',
+                                            '#4A235A',
+                                            '#C39BD3',
+                                            '#F9E79F',
+                                            '#BA4A00',
+                                            '#ECF0F1',
+                                            '#616A6B',
+                                            '#EAF2F8',
+                                            '#4A235A',
+                                            '#3498DB'
+                                        ];
+                                        return colorList[params.dataIndex]
+                                    },
+                                }
+                            },
+                            data: prices
+                        }
+                    ]
+                });
+            }
+        })
+    }
+
+    function loadym(a, b) {
+        $.ajax({
+            url: "/selectMoneysByMonth",
+            method: "get",
+            data: {
+                "querytime": a + '-' + b
+            },
+            success: function (data) {
+                var names = [];
+                var prices = [];
+                for (var i = 0; i < data.length; i++) {
+                    names[i] = data[i].basename;
+                    if (data[i].pricecount == null) {
+                        prices[i] = 0;
+                    } else {
+                        prices[i] = data[i].pricecount;
+                    }
+                }
+                var myChart = echarts.init(document.getElementById('main'));
+                // 指定图表的配置项和数据
+                myChart.setOption({
+                    title: {
+                        text: a + '年' + b + '月基地营业额'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data: ['营业额']
+                    },
+                    xAxis: {
+                        data: names
+                    },
+                    yAxis: {},
+                    series: [
+                        {
+                            name: '营业额（元）',
+                            type: 'bar',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top'
+                                }
+                            },
+                            itemStyle: {
+                                normal: {
+                                    // 随机显示
+                                    // color:function(d){return "#"+Math.floor(Math.random()*(256*256*256-1)).toString(16);}
+                                    color: function (params) {
+                                        var colorList = [
+                                            '#C33531',
+                                            '#EFE42A',
+                                            '#64BD3D',
+                                            '#EE9201',
+                                            '#29AAE3',
+                                            '#B74AE5',
+                                            '#0AAF9F',
+                                            '#E89589',
+                                            '#16A085',
+                                            '#4A235A',
+                                            '#C39BD3',
+                                            '#F9E79F',
+                                            '#BA4A00',
+                                            '#ECF0F1',
+                                            '#616A6B',
+                                            '#EAF2F8',
+                                            '#4A235A',
+                                            '#3498DB'
+                                        ];
+                                        return colorList[params.dataIndex]
+                                    },
+                                }
+                            },
+                            data: prices
+                        }
+                    ]
+                });
+            }
+        })
+    }
 </script>
 </body>
 </html>

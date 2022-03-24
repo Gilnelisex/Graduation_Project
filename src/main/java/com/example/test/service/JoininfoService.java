@@ -2,6 +2,7 @@ package com.example.test.service;
 
 
 import com.example.test.domain.Joininfo;
+import com.example.test.domain.StatisticalResults;
 
 import java.util.List;
 
@@ -11,6 +12,14 @@ import java.util.List;
 * @createDate 2022-03-11 18:06:54
 */
 public interface JoininfoService {
+
+    List<StatisticalResults> selectYear();
+
+    List<StatisticalResults> selectMonth(StatisticalResults statisticalResults);
+
+    List<StatisticalResults> selectMoneysByYDate (StatisticalResults statisticalResults);
+
+    List<StatisticalResults> selectMoneysByDate (StatisticalResults joininfo);
 
     Integer selectCount();
 

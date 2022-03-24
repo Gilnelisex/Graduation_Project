@@ -1,6 +1,7 @@
 package com.example.test.service.impl;
 
 import com.example.test.domain.Joininfo;
+import com.example.test.domain.StatisticalResults;
 import com.example.test.mapper.JoininfoMapper;
 import com.example.test.service.JoininfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,26 @@ public class JoininfoServiceImpl implements JoininfoService {
 
     @Autowired
     JoininfoMapper joininfoMapper;
+
+    @Override
+    public List<StatisticalResults> selectYear() {
+        return this.joininfoMapper.selectYear();
+    }
+
+    @Override
+    public List<StatisticalResults> selectMonth(StatisticalResults statisticalResults) {
+        return this.joininfoMapper.selectMonth(statisticalResults);
+    }
+
+    @Override
+    public List<StatisticalResults> selectMoneysByYDate(StatisticalResults statisticalResults) {
+        return this.joininfoMapper.selectMoneysByYDate(statisticalResults);
+    }
+
+    @Override
+    public List<StatisticalResults> selectMoneysByDate(StatisticalResults statisticalResults) {
+        return this.joininfoMapper.selectMoneysByDate(statisticalResults);
+    }
 
     @Override
     public Integer selectCount() {

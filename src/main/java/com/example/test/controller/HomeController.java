@@ -1,5 +1,7 @@
 package com.example.test.controller;
 
+import com.example.test.domain.Base;
+import com.example.test.domain.StatisticalResults;
 import com.example.test.service.ActivityService;
 import com.example.test.service.BaseService;
 import com.example.test.service.JoininfoService;
@@ -8,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -42,4 +48,71 @@ public class HomeController {
         return "management/homePage";
     }
 
+    @GetMapping("/selectYear")
+    @ResponseBody
+    public List<StatisticalResults> selectYear() {
+        List<StatisticalResults> statisticalResultsList = this.joininfoService.selectYear();
+        return statisticalResultsList;
+    }
+
+    @GetMapping("/selectMonth")
+    @ResponseBody
+    public List<StatisticalResults> selectMonth(StatisticalResults statisticalResults) {
+        List<StatisticalResults> statisticalResultsList = this.joininfoService.selectMonth(statisticalResults);
+        return statisticalResultsList;
+    }
+
+    @GetMapping("/selectMoneysByYear")
+    @ResponseBody
+    public List<StatisticalResults> selectMoneysByYear(StatisticalResults statisticalResults) {
+        List<StatisticalResults> statisticalResultsList = this.joininfoService.selectMoneysByYDate(statisticalResults);
+        List<Base> baseList = this.baseService.selectAllBaseName();
+        List<StatisticalResults> z = new ArrayList<StatisticalResults>();
+        for (int i = 0; i < baseList.size(); i++) {
+            String baseName = baseList.get(i).getName();
+            for (int j = 0; j < statisticalResultsList.size(); j++) {
+                String baseNames = statisticalResultsList.get(j).getBasename();
+                if (baseName.equals(baseNames)) {
+                    StatisticalResults s1 = new StatisticalResults();
+                    s1.setBasename(baseNames);
+                    s1.setPricecount(statisticalResultsList.get(j).getPricecount());
+                    z.add(i, s1);
+                    break;
+                } else if (j == statisticalResultsList.size() - 1) {
+                    StatisticalResults s2 = new StatisticalResults();
+                    s2.setBasename(baseName);
+                    s2.setPricecount(0);
+                    z.add(i, s2);
+                }
+            }
+        }
+        return z;
+    }
+
+    @GetMapping("/selectMoneysByMonth")
+    @ResponseBody
+    public List<StatisticalResults> selectMoneysByMonth(StatisticalResults statisticalResults) {
+        List<StatisticalResults> statisticalResultsList = this.joininfoService.selectMoneysByDate(statisticalResults);
+        List<Base> baseList = this.baseService.selectAllBaseName();
+        List<StatisticalResults> z = new ArrayList<StatisticalResults>();
+        for (int i = 0; i < baseList.size(); i++) {
+            String baseName = baseList.get(i).getName();
+            for (int j = 0; j < statisticalResultsList.size(); j++) {
+                String baseNames = statisticalResultsList.get(j).getBasename();
+                if (baseName.equals(baseNames)) {
+                    StatisticalResults s1 = new StatisticalResults();
+                    s1.setBasename(baseNames);
+                    s1.setPricecount(statisticalResultsList.get(j).getPricecount());
+                    z.add(i, s1);
+                    break;
+                } else if (j == statisticalResultsList.size() - 1) {
+                    StatisticalResults s2 = new StatisticalResults();
+                    s2.setBasename(baseName);
+                    s2.setPricecount(0);
+                    z.add(i, s2);
+                }
+            }
+        }
+        return z;
+    }
 }
