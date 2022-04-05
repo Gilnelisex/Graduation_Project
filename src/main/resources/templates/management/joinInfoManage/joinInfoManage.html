@@ -69,7 +69,7 @@
                     <div style="width: 8%" class="listTitles">管理员昵称</div>
                     <div style="width: 8%" class="listTitles">管理员账号</div>
                     <div style="width: 8%" class="listTitles">活动名称</div>
-                    <div style="width: 5%" class="listTitles">状态</div>
+                    <div style="width: 5%" class="listTitles">审核状态</div>
                     <div style="width: 5%" class="listTitles">人数</div>
                     <div style="width: 5%" class="listTitles">总金额</div>
                     <div class="listTitlesu">更新时间</div>
@@ -83,7 +83,7 @@
                     <div style="width: 8%" class="listTitles" th:text="${joinInfoList.mnickname}">管理员昵称</div>
                     <div style="width: 8%" class="listTitles" th:text="${joinInfoList.maccount}">管理员账号</div>
                     <div style="width: 8%" class="listTitles" th:text="${joinInfoList.aname}">活动名称</div>
-                    <div style="width: 5%" class="listTitles" th:text="${joinInfoList.infostatusz}">状态</div>
+                    <div style="width: 5%" class="listTitles" th:text="${joinInfoList.infostatusz}">审核状态</div>
                     <div style="width: 5%" class="listTitles" th:text="${joinInfoList.usernums}+'人'">人数</div>
                     <div style="width: 5%" class="listTitles" th:text="${joinInfoList.userprices}+'元'">金额</div>
                     <div class="listTitlesu" th:text="${#dates.format(joinInfoList.updatetime, 'yyyy-MM-dd HH:mm:ss')}">

@@ -34,7 +34,7 @@
                             报名信息
                         </div>
                         <div class="column1-2">
-                            <div class="column1-2s" th:text="'今日：'+${joinInfoCountToday}"></div>
+                            <div class="column1-2s" th:text="'今日发布：'+${joinInfoCountToday}"></div>
                             <div class="column1-2s" th:text="'累计：'+${joinInfoCount}"></div>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                             活动发布
                         </div>
                         <div class="column1-2">
-                            <div class="column1-2s" th:text="'今日：'+${activityCountToday}"></div>
+                            <div class="column1-2s" th:text="'今日发布：'+${activityCountToday}"></div>
                             <div class="column1-2s" th:text="'累计：'+${activityCount}"></div>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                             基地发布
                         </div>
                         <div class="column1-2">
-                            <div class="column1-2s" th:text="'今日：'+${baseCountToday}"></div>
+                            <div class="column1-2s" th:text="'今日发布：'+${baseCountToday}"></div>
                             <div class="column1-2s" th:text="'累计：'+${baseCount}"></div>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
                             回顾发布
                         </div>
                         <div class="column1-2">
-                            <div class="column1-2s" th:text="'今日：'+${reviewCountToday}"></div>
+                            <div class="column1-2s" th:text="'今日发布：'+${reviewCountToday}"></div>
                             <div class="column1-2s" th:text="'累计：'+${reviewCount}"></div>
                         </div>
                     </div>
@@ -157,19 +157,21 @@
             success: function (data) {
                 var names = [];
                 var prices = [];
+                var sumprice = 0;
                 for (var i = 0; i < data.length; i++) {
                     names[i] = data[i].basename;
                     if (data[i].pricecount == null) {
                         prices[i] = 0;
                     } else {
                         prices[i] = data[i].pricecount;
+                        sumprice += data[i].pricecount;
                     }
                 }
                 var myChart = echarts.init(document.getElementById('main'));
                 // 指定图表的配置项和数据
                 myChart.setOption({
                     title: {
-                        text: a + '年基地总营业额'
+                        text: a + '年基地总营业额：'+sumprice+'元'
                     },
                     tooltip: {},
                     legend: {
@@ -239,19 +241,21 @@
             success: function (data) {
                 var names = [];
                 var prices = [];
+                var sumprice = 0;
                 for (var i = 0; i < data.length; i++) {
                     names[i] = data[i].basename;
                     if (data[i].pricecount == null) {
                         prices[i] = 0;
                     } else {
                         prices[i] = data[i].pricecount;
+                        sumprice += data[i].pricecount;
                     }
                 }
                 var myChart = echarts.init(document.getElementById('main'));
                 // 指定图表的配置项和数据
                 myChart.setOption({
                     title: {
-                        text: a + '年' + b + '月基地营业额'
+                        text: a + '年' + b + '月基地总营业额：'+sumprice+'元'
                     },
                     tooltip: {},
                     legend: {
