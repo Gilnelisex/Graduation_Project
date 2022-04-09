@@ -26,7 +26,8 @@ public class AdminConfig implements WebMvcConfigurer {
                 "/verifyCode",
                 "/**/*.html",            //html静态资源
                 "/**/*.js",              //js静态资源
-                "/**/*.css"             //css静态资源
+                "/**/*.css",             //css静态资源
+                "/**/*.jpg"
         );
     }
 }

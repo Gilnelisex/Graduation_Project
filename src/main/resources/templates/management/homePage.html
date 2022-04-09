@@ -34,7 +34,7 @@
                             报名信息
                         </div>
                         <div class="column1-2">
-                            <div class="column1-2s" th:text="'今日发布：'+${joinInfoCountToday}"></div>
+                            <div class="column1-2s" th:text="'今日预约：'+${joinInfoCountToday}"></div>
                             <div class="column1-2s" th:text="'累计：'+${joinInfoCount}"></div>
                         </div>
                     </div>
@@ -171,7 +171,7 @@
                 // 指定图表的配置项和数据
                 myChart.setOption({
                     title: {
-                        text: a + '年基地总营业额：'+sumprice+'元'
+                        text: a + '年总营业额：'+sumprice+'元'
                     },
                     tooltip: {},
                     legend: {
@@ -255,7 +255,7 @@
                 // 指定图表的配置项和数据
                 myChart.setOption({
                     title: {
-                        text: a + '年' + b + '月基地总营业额：'+sumprice+'元'
+                        text: a + '年' + b + '月总营业额：'+sumprice+'元'
                     },
                     tooltip: {},
                     legend: {
