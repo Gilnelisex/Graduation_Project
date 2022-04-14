@@ -48,6 +48,7 @@
         select ID, Name
         from base
         where BaseStatus != 2
+        order by ID asc
     </select>
 
     <select id="selectAllBase" parameterType="com.example.test.domain.Base" resultMap="BaseResultMap">

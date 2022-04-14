@@ -1,5 +1,6 @@
 package com.example.test.mapper;
 
+import com.example.test.domain.ActBaseCount;
 import com.example.test.domain.Activity;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,6 +13,8 @@ import java.util.List;
 * @Entity com.example.test.domain.Activity
 */
 public interface ActivityMapper {
+
+    List<ActBaseCount> selectCountByBase();
 
     Integer selectCount();
 

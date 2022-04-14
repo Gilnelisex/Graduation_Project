@@ -24,6 +24,11 @@
         <result property="updatetime" column="UpdateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <resultMap id="ActBaseCount" type="com.example.test.domain.ActBaseCount">
+        <result property="basename" column="BaseName" jdbcType="VARCHAR"/>
+        <result property="actcount" column="ActCount" jdbcType="INTEGER"/>
+    </resultMap>
+
     <sql id="Base_Column_List">
         ID
         ,Name,Picture,
@@ -32,6 +37,14 @@
         Time,Num,Price,
         ActStatus,CreateTime,UpdateTime
     </sql>
+
+    <select id="selectCountByBase" resultMap="ActBaseCount">
+        select  COUNT(a.id) actcount, b.name basename
+        from activity a right join base b on a.Field = b.id
+        where a.ActStatus = 1
+        group by b.id
+        order by b.id
+    </select>
 
     <select id="selectCount" resultType="Integer">
         select count(*)

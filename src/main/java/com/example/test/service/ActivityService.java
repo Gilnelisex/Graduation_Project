@@ -1,5 +1,6 @@
 package com.example.test.service;
 
+import com.example.test.domain.ActBaseCount;
 import com.example.test.domain.Activity;
 
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.List;
  * @createDate 2022-03-03 16:39:20
  */
 public interface ActivityService {
+
+    List<ActBaseCount> selectCountByBase();
 
     Integer selectCount();
 

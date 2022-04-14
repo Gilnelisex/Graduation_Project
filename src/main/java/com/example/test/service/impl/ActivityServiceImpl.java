@@ -1,5 +1,6 @@
 package com.example.test.service.impl;
 
+import com.example.test.domain.ActBaseCount;
 import com.example.test.domain.Activity;
 import com.example.test.mapper.ActivityMapper;
 import com.example.test.service.ActivityService;
@@ -18,6 +19,11 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Autowired
     ActivityMapper activityMapper;
+
+    @Override
+    public List<ActBaseCount> selectCountByBase() {
+        return this.activityMapper.selectCountByBase();
+    }
 
     @Override
     public Integer selectCount() {

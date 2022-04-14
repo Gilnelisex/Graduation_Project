@@ -1,5 +1,6 @@
 package com.example.test.controller;
 
+import com.example.test.domain.ActBaseCount;
 import com.example.test.domain.Base;
 import com.example.test.domain.StatisticalResults;
 import com.example.test.service.ActivityService;
@@ -46,6 +47,33 @@ public class HomeController {
         model.addAttribute("joinInfoCount", joinInfoCount);
         model.addAttribute("joinInfoCountToday", joinInfoCountToday);
         return "management/homePage";
+    }
+
+    @GetMapping("/selectActCount")
+    @ResponseBody
+    public List<ActBaseCount> selectActCount() {
+        List<ActBaseCount> activityBaseCount = this.activityService.selectCountByBase();
+        List<Base> baseList = this.baseService.selectAllBaseName();
+        List<ActBaseCount> z = new ArrayList<ActBaseCount>();
+        for (int i = 0; i < baseList.size(); i++) {
+            String baseName = baseList.get(i).getName();
+            for (int j = 0; j < activityBaseCount.size(); j++) {
+                String baseNames = activityBaseCount.get(j).getBasename();
+                if (baseName.equals(baseNames)) {
+                    ActBaseCount s1 = new ActBaseCount();
+                    s1.setBasename(baseNames);
+                    s1.setActcount(activityBaseCount.get(j).getActcount());
+                    z.add(i, s1);
+                    break;
+                } else if (j == activityBaseCount.size() - 1) {
+                    ActBaseCount s2 = new ActBaseCount();
+                    s2.setBasename(baseName);
+                    s2.setActcount(0);
+                    z.add(i, s2);
+                }
+            }
+        }
+        return z;
     }
 
     @GetMapping("/selectYear")

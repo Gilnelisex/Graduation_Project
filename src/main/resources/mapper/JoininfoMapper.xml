@@ -56,17 +56,17 @@
     <select id="selectMoneysByYDate" parameterType="StatisticalResults" resultMap="StatisticalResults">
         select sum(j.UserPrices) pricecount, b.name BaseName
         from (joininfo j left join activity a on (j.actid = a.id)) left join base b on (a.field = b.id)
-        where date_format(j.CreateTime, '%Y') = date_format(#{querytime}, '%Y')
+        where date_format(j.CreateTime, '%Y') = date_format(#{querytime}, '%Y') and j.infostatus = 1
         group by b.id
-        order by sum(j.UserPrices) desc
+        order by b.id asc
     </select>
 
     <select id="selectMoneysByDate" parameterType="StatisticalResults" resultMap="StatisticalResults">
         select sum(j.UserPrices) pricecount, b.name BaseName
         from (joininfo j left join activity a on (j.actid = a.id)) left join base b on (a.field = b.id)
-        where date_format(j.CreateTime, '%Y-%c') = date_format(#{querytime}, '%Y-%c')
+        where date_format(j.CreateTime, '%Y-%c') = date_format(#{querytime}, '%Y-%c') and j.infostatus = 1
         group by b.id
-        order by sum(j.UserPrices) desc
+        order by b.id asc
     </select>
 
     <select id="selectCount" resultType="Integer">
