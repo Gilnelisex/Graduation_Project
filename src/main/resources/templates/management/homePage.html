@@ -76,15 +76,16 @@
                     </div>
                 </a>
             </div>
-            <div class="selector">
-                <select id="years" th:onchange="getMonth()">
-                    <option value="">请选择年份</option>
-                </select>
-                <select id="months" th:onchange="loads()">
-                    <option value="">请选择月份</option>
-                </select>
-            </div>
             <div class="maps">
+                <div class="selectors"></div>
+                <div class="selectors">
+                    <select id="years" th:onchange="getMonth()">
+                        <option value="">请选择年份</option>
+                    </select>
+                    <select id="months" th:onchange="loads()">
+                        <option value="">请选择月份</option>
+                    </select>
+                </div>
                 <div id="mains" style="width: 50%; height: 444px;margin: 10px 0"></div>
                 <div id="main" style="width: 50%; height: 444px;margin: 10px 0"></div>
             </div>
@@ -164,18 +165,14 @@
                 var sumprice = 0;
                 for (var i = 0; i < data.length; i++) {
                     names[i] = data[i].basename;
-                    if (data[i].pricecount == null) {
-                        prices[i] = 0;
-                    } else {
-                        prices[i] = data[i].pricecount;
-                        sumprice += data[i].pricecount;
-                    }
+                    prices[i] = data[i].pricecount;
+                    sumprice += data[i].pricecount;
                 }
                 var myChart = echarts.init(document.getElementById('main'));
                 // 指定图表的配置项和数据
                 myChart.setOption({
                     title: {
-                        text: a + '年总营业额：'+sumprice+'元'
+                        text: a + '年总营业额：' + sumprice + '元'
                     },
                     tooltip: {},
                     legend: {
@@ -248,18 +245,14 @@
                 var sumprice = 0;
                 for (var i = 0; i < data.length; i++) {
                     names[i] = data[i].basename;
-                    if (data[i].pricecount == null) {
-                        prices[i] = 0;
-                    } else {
-                        prices[i] = data[i].pricecount;
-                        sumprice += data[i].pricecount;
-                    }
+                    prices[i] = data[i].pricecount;
+                    sumprice += data[i].pricecount;
                 }
                 var myChart = echarts.init(document.getElementById('main'));
                 // 指定图表的配置项和数据
                 myChart.setOption({
                     title: {
-                        text: a + '年' + b + '月总营业额：'+sumprice+'元'
+                        text: a + '年' + b + '月总营业额：' + sumprice + '元'
                     },
                     tooltip: {},
                     legend: {
@@ -319,26 +312,28 @@
         })
     }
 
-    function loadms (){
+    function loadms() {
         $.ajax({
             url: "/selectActCount",
             method: "get",
             success: function (data) {
                 var names = [];
                 var accounts = [];
+                var sumcounts = 0;
                 for (var i = 0; i < data.length; i++) {
                     names[i] = data[i].basename;
                     accounts[i] = data[i].actcount;
+                    sumcounts+=data[i].actcount;
                 }
                 var myChart = echarts.init(document.getElementById('mains'));
                 // 指定图表的配置项和数据
                 myChart.setOption({
                     title: {
-                        text: '基地已上架活动数'
+                        text: '已上架总活动数：'+sumcounts+'个'
                     },
                     tooltip: {},
                     legend: {
-                        data: ['活动数量']
+                        data: ['活动数']
                     },
                     xAxis: {
                         data: names,
@@ -349,7 +344,7 @@
                     yAxis: {},
                     series: [
                         {
-                            name: '活动数量（个）',
+                            name: '活动数（个）',
                             type: 'bar',
                             label: {
                                 normal: {
