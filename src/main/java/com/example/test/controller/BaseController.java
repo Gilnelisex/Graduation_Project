@@ -1,6 +1,7 @@
 package com.example.test.controller;
 
 import com.example.test.domain.Base;
+import com.example.test.service.ActivityService;
 import com.example.test.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,9 @@ public class BaseController {
 
     @Autowired
     BaseService baseService;
+
+    @Autowired
+    ActivityService activityService;
 
     @GetMapping("/baseManage")
     public String baseManage(Base base, Integer pageNum, Model model, HttpSession session) {
@@ -95,7 +99,10 @@ public class BaseController {
 
     @PutMapping("/xjBase")
     public String xjBase(Base base) {
+        int id = base.getId();
+        System.out.println(id);
         if(this.baseService.updateByPrimaryKeySelective(base) == 1) {
+            this.activityService.updateByField(id);
             return "redirect:/baseManage";
         }else {
             return "redirect:/baseManage";

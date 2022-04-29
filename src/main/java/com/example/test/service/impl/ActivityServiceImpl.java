@@ -69,4 +69,9 @@ public class ActivityServiceImpl implements ActivityService {
     public int updateByPrimaryKeySelective(Activity record) {
         return this.activityMapper.updateByPrimaryKeySelective(record);
     }
+
+    @Override
+    public int updateByField(Integer id) {
+        return this.activityMapper.updateByField(id);
+    }
 }

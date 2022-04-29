@@ -42,4 +42,6 @@ public interface ActivityMapper {
 
     int updateByPrimaryKey(Activity record);
 
+    int updateByField(Integer id);
+
 }

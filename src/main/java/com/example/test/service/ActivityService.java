@@ -32,4 +32,6 @@ public interface ActivityService {
 
     int updateByPrimaryKeySelective(Activity record);
 
+    int updateByField(Integer id);
+
 }

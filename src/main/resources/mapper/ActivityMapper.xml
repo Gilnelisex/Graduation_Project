@@ -257,4 +257,10 @@
         where ID = #{id,jdbcType=INTEGER}
     </update>
 
+    <update id="updateByField" parameterType="java.lang.Integer">
+        update activity
+        set ActStatus  = 0
+        where Field = #{value} and ActStatus = 1
+    </update>
+
 </mapper>
