@@ -123,21 +123,30 @@ public class HomeController {
         List<StatisticalResults> statisticalResultsList = this.joininfoService.selectMoneysByDate(statisticalResults);
         List<Base> baseList = this.baseService.selectAllBaseName();
         List<StatisticalResults> z = new ArrayList<StatisticalResults>();
-        for (int i = 0; i < baseList.size(); i++) {
-            String baseName = baseList.get(i).getName();
-            for (int j = 0; j < statisticalResultsList.size(); j++) {
-                String baseNames = statisticalResultsList.get(j).getBasename();
-                if (baseName.equals(baseNames)) {
-                    StatisticalResults s1 = new StatisticalResults();
-                    s1.setBasename(baseNames);
-                    s1.setPricecount(statisticalResultsList.get(j).getPricecount());
-                    z.add(i, s1);
-                    break;
-                } else if (j == statisticalResultsList.size() - 1) {
-                    StatisticalResults s2 = new StatisticalResults();
-                    s2.setBasename(baseName);
-                    s2.setPricecount(0);
-                    z.add(i, s2);
+        if (statisticalResultsList.size() == 0) {
+            for (int i = 0; i < baseList.size(); i++) {
+                StatisticalResults s = new StatisticalResults();
+                s.setBasename(baseList.get(i).getName());
+                s.setPricecount(0);
+                z.add(i, s);
+            }
+        } else {
+            for (int i = 0; i < baseList.size(); i++) {
+                String baseName = baseList.get(i).getName();
+                for (int j = 0; j < statisticalResultsList.size(); j++) {
+                    String baseNames = statisticalResultsList.get(j).getBasename();
+                    if (baseName.equals(baseNames)) {
+                        StatisticalResults s1 = new StatisticalResults();
+                        s1.setBasename(baseNames);
+                        s1.setPricecount(statisticalResultsList.get(j).getPricecount());
+                        z.add(i, s1);
+                        break;
+                    } else if (j == statisticalResultsList.size() - 1) {
+                        StatisticalResults s2 = new StatisticalResults();
+                        s2.setBasename(baseName);
+                        s2.setPricecount(0);
+                        z.add(i, s2);
+                    }
                 }
             }
         }

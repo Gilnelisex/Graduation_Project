@@ -100,7 +100,6 @@ public class BaseController {
     @PutMapping("/xjBase")
     public String xjBase(Base base) {
         int id = base.getId();
-        System.out.println(id);
         if(this.baseService.updateByPrimaryKeySelective(base) == 1) {
             this.activityService.updateByField(id);
             return "redirect:/baseManage";
@@ -118,7 +117,9 @@ public class BaseController {
 
     @PutMapping("/deleteBase")
     public String deleteBase(Base base) {
+        int id = base.getId();
         if(this.baseService.updateByPrimaryKeySelective(base) == 1) {
+            this.activityService.updateByField(id);
             return "redirect:/baseManage";
         }else {
             return "redirect:/baseManage";
