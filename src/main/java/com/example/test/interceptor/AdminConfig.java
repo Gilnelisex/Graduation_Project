@@ -58,7 +58,6 @@ public class AdminConfig implements WebMvcConfigurer {
         registrations.addPathPatterns(
                 "/userManage",
                 "/getInsertUser",
-                "/getInsertUser",
                 "/insertUser",
                 "/getChangeUser/{id}",
                 "/changeUser",
