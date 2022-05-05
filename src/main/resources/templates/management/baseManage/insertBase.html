@@ -18,11 +18,11 @@
     <input type="hidden" id="picture" name="picture">
     <div class="insertBases">
         <div class="ibaseTitles">基地名称 :</div>
-        <input id="iname" name="name">
+        <input required id="iname" name="name">
     </div>
     <div class="insertBases">
         <div class="ibaseTitles">车程 :</div>
-        <input style="width: 50%" id="ihour" name="hour">
+        <input required style="width: 50%" id="ihour" name="hour">
         <div style="text-align: center" class="ibaseTitles">小时</div>
     </div>
     <div class="insertBases">
@@ -33,15 +33,15 @@
                     th:value="${typeList.type}" th:text="${typeList.type}"></option>
         </select>
         <div style="text-align: center" class="ibaseTitles">或</div>
-        <input id="itypes" name="type" placeholder="手动输入">
+        <input required id="itypes" name="type" placeholder="手动输入">
     </div>
     <div class="insertBases">
         <div style="width: 15%" class="ibaseTitles">省 :</div>
-        <select id="iprovince" name="province" th:onchange="igetCity()">
+        <select required id="iprovince" name="province" th:onchange="igetCity()">
             <option value="">请选择省份</option>
         </select>
         <div style="width: 15%;text-align: center" class="ibaseTitles">市 :</div>
-        <select id="icity" name="city">
+        <select required id="icity" name="city">
             <option value="">请选择市区</option>
         </select>
     </div>

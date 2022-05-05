@@ -19,30 +19,30 @@
     <input type="hidden" id="id" name="id" th:value="${activity.id}">
     <div class="insertActivitys">
         <div class="iactivityTitles">活动名称 :</div>
-        <input id="iname" name="name" th:value="${activity.name}">
+        <input required id="iname" name="name" th:value="${activity.name}">
     </div>
     <div class="insertActivitys">
         <div class="iactivityTitles">活动用时 :</div>
-        <input style="width: 50%" id="itime" name="time" th:value="${activity.time}">
+        <input required style="width: 50%" id="itime" name="time" th:value="${activity.time}">
         <div style="text-align: center" class="iactivityTitles">小时</div>
     </div>
     <div class="insertActivitys">
         <div class="iactivityTitles">活动人数 :</div>
-        <input style="width: 50%" id="inum" name="num" th:value="${activity.num}">
+        <input required style="width: 50%" id="inum" name="num" th:value="${activity.num}">
         <div style="text-align: center" class="iactivityTitles">人</div>
     </div>
     <div class="insertActivitys">
         <div class="iactivityTitles">活动价格 :</div>
-        <input style="width: 50%" id="iprice" name="price" th:value="${activity.price}">
+        <input required style="width: 50%" id="iprice" name="price" th:value="${activity.price}">
         <div style="text-align: center" class="iactivityTitles">元 /人</div>
     </div>
     <div class="insertActivitys">
         <div class="iactivityTitles">推荐理由 :</div>
-        <input id="ireason" name="reason" th:value="${activity.reason}">
+        <input required id="ireason" name="reason" th:value="${activity.reason}">
     </div>
     <div class="insertActivitys">
         <div class="iactivityTitles">活动场地 :</div>
-        <select id="ifield" name="field">
+        <select required id="ifield" name="field">
             <option th:text="选择场地" value=""></option>
             <option th:each="baseList,status : ${baseList}"
                     th:selected="${baseList.id == activity.field}" th:value="${baseList.id}" th:text="${baseList.name}"></option>
@@ -56,7 +56,7 @@
                     th:selected="${typeList.type == activity.type}" th:value="${typeList.type}" th:text="${typeList.type}"></option>
         </select>
         <div style="text-align: center" class="iactivityTitles">或</div>
-        <input id="itypes" name="type" readonly="readonly" th:value="${activity.type}" placeholder="手动输入">
+        <input required id="itypes" name="type" readonly="readonly" th:value="${activity.type}" placeholder="手动输入">
     </div>
     <div class="insertActivitys">
         <div class="iactivityTitles">活动收获 :</div>
@@ -66,7 +66,7 @@
                     th:selected="${harvestList.harvest == activity.harvest}" th:value="${harvestList.harvest}" th:text="${harvestList.harvest}"></option>
         </select>
         <div style="text-align: center" class="iactivityTitles">或</div>
-        <input id="iharvests" name="harvest" readonly="readonly" th:value="${activity.harvest}" placeholder="手动输入">
+        <input required id="iharvests" name="harvest" readonly="readonly" th:value="${activity.harvest}" placeholder="手动输入">
     </div>
     <div class="insertContent">
         <div class="iactivityTitles">创意亮点 :</div>

@@ -19,11 +19,11 @@
     <input type="hidden" id="id" name="id" th:value="${review.id}">
     <div class="insertReviews">
         <div class="ireviewTitles">回顾名称 :</div>
-        <input id="ititle" name="title"  th:value="${review.title}">
+        <input required id="ititle" name="title"  th:value="${review.title}">
     </div>
     <div class="insertReviews">
         <div class="ireviewTitles">相关活动 :</div>
-        <select id="irelationact" name="relationact">
+        <select required id="irelationact" name="relationact">
             <option th:text="选择活动" value=""></option>
             <option th:each="activityList,status : ${activityList}"
                     th:selected="${activityList.id == review.relationact}" th:value="${activityList.id}" th:text="${activityList.name}"></option>

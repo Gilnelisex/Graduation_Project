@@ -19,11 +19,11 @@
     <input type="hidden" id="id" name="id" th:value="${base.id}">
     <div class="insertBases">
         <div class="ibaseTitles">基地名称 :</div>
-        <input id="iname" name="name" th:value="${base.name}">
+        <input required id="iname" name="name" th:value="${base.name}">
     </div>
     <div class="insertBases">
         <div class="ibaseTitles">车程 :</div>
-        <input style="width: 50%" id="ihour" name="hour" th:value="${base.hour}">
+        <input required style="width: 50%" id="ihour" name="hour" th:value="${base.hour}">
         <div style="text-align: center" class="ibaseTitles">小时</div>
     </div>
     <div class="insertBases">
@@ -34,15 +34,15 @@
                     th:selected="${typeList.type == base.type}" th:value="${typeList.type}" th:text="${typeList.type}"></option>
         </select>
         <div style="text-align: center" class="ibaseTitles">或</div>
-        <input readonly="readonly" th:value="${base.type}" id="itypes" name="type" placeholder="手动输入">
+        <input required readonly="readonly" th:value="${base.type}" id="itypes" name="type" placeholder="手动输入">
     </div>
     <div class="insertBases">
         <div style="width: 15%" class="ibaseTitles">省 :</div>
-        <select id="uprovince" name="province" th:onchange="ugetCity()">
+        <select required id="uprovince" name="province" th:onchange="ugetCity()">
             <option value="">请选择省份</option>
         </select>
         <div style="width: 15%;text-align: center" class="ibaseTitles">市 :</div>
-        <select id="ucity" name="city">
+        <select required id="ucity" name="city">
             <option value="">请选择市区</option>
         </select>
     </div>

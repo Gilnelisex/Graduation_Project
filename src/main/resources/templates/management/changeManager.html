@@ -12,7 +12,7 @@
         <input type="hidden" name="id" readonly="readonly" th:value="*{id}">
         <div class="insertItem">
             <div class="itemTitle">账号 :</div>
-            <input class="itemInput" name="account" type="text" disabled="disabled" th:value="*{account}">
+            <input required class="itemInput" name="account" type="text" disabled="disabled" th:value="*{account}">
         </div>
 <!--        <div class="insertItem">-->
 <!--            <div class="itemTitle">密码 :</div>-->
@@ -20,26 +20,26 @@
 <!--        </div>-->
         <div class="insertItem">
             <div class="itemTitle">昵称 :</div>
-            <input class="itemInput" name="nickname" type="text" th:value="*{nickname}">
+            <input required class="itemInput" name="nickname" type="text" th:value="*{nickname}">
         </div>
         <div class="insertItem">
             <div class="itemTitle">手机号码 :</div>
-            <input class="itemInput" name="phonenum" type="text" th:value="*{phonenum}">
+            <input required class="itemInput" name="phonenum" type="text" th:value="*{phonenum}">
         </div>
         <div class="insertItem">
             <div class="itemTitle">性别 :</div>
-            <input style="margin: 0 10px;" th:checked="*{sex eq '男'}" class="itemRadio" type="radio" name="sex" value="男"><span>男</span>
-            <input style="margin: 0 10px;" th:checked="*{sex eq '女'}" class="itemRadio" type="radio" name="sex" value="女"><span>女</span>
+            <input style="margin: 0 10px;" th:checked="*{sex eq '男'}" required class="itemRadio" type="radio" name="sex" value="男"><span>男</span>
+            <input style="margin: 0 10px;" th:checked="*{sex eq '女'}" required class="itemRadio" type="radio" name="sex" value="女"><span>女</span>
         </div>
         <div class="insertItem">
             <div class="itemTitle">状态 :</div>
-            <input style="margin: 0 10px;" th:checked="*{managerstatus == 0}" class="itemRadio" type="radio" name="managerstatus" value="0"><span>未激活</span>
-            <input style="margin: 0 10px;" th:checked="*{managerstatus == 1}" class="itemRadio" type="radio" name="managerstatus" value="1"><span>已激活</span>
+            <input style="margin: 0 10px;" th:checked="*{managerstatus == 0}" required class="itemRadio" type="radio" name="managerstatus" value="0"><span>未激活</span>
+            <input style="margin: 0 10px;" th:checked="*{managerstatus == 1}" required class="itemRadio" type="radio" name="managerstatus" value="1"><span>已激活</span>
         </div>
         <div class="insertItem">
             <div class="itemTitle">权限等级 :</div>
-            <input style="margin: 0 10px;" th:checked="*{level == 1}" class="itemRadio" type="radio" name="level" value="1"><span>普通管理员</span>
-            <input style="margin: 0 10px;" th:checked="*{level == 2}" class="itemRadio" type="radio" name="level" value="2"><span>超级管理员</span>
+            <input style="margin: 0 10px;" th:checked="*{level == 1}" class="itemRadio" type="radio" required name="level" value="1"><span>普通管理员</span>
+            <input style="margin: 0 10px;" th:checked="*{level == 2}" class="itemRadio" type="radio" required name="level" value="2"><span>超级管理员</span>
         </div>
         <div class="insertButton">
             <input id="submitz" type="submit" value="保存">
