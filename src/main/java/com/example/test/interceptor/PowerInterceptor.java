@@ -1,38 +1,27 @@
 package com.example.test.interceptor;
 
 import com.example.test.domain.Managers;
-import com.example.test.service.ManagersService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 @Component
-public class AdminInterceptor implements HandlerInterceptor {
-
-    @Autowired
-    ManagersService managersService;
-
-    /**
-     * 在请求处理之前进行调用（Controller方法调用之前）
-     */
+public class PowerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-//        System.out.println("执行了TestInterceptor的preHandle1方法");
+//        System.out.println("执行了TestInterceptor的preHandle2方法");
         //统一拦截（查询当前session是否存在user）(这里user会在每次登陆成功后，写入session)
-        Managers managers = (Managers) request.getSession().getAttribute("manager");
-        if (managers != null) {
-            Managers manager = managersService.selectByPrimaryKey(managers.getId());
-            if (manager.getManagerstatus() == 1) {
-                request.getSession().setAttribute("manager", manager);
+        Managers manager = (Managers) request.getSession().getAttribute("manager");
+        if (manager != null) {
+            if (manager.getLevel() == 2) {
                 return true;
             } else {
-                response.sendRedirect("/logout");
+                response.sendRedirect("/management");
                 return false;
             }
         } else {
@@ -59,3 +48,4 @@ public class AdminInterceptor implements HandlerInterceptor {
     }
 
 }
+
